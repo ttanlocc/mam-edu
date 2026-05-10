@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Laged · Education App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #FBFAF7; font-family: "DM Sans", -apple-system, system-ui, sans-serif; color: #22241F; }
+  * { box-sizing: border-box; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: rgba(34,36,31,0.18); border-radius: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  button { font-family: inherit; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+
+<script type="text/babel" src="src/data.js"></script>
+<script type="text/babel" src="src/theme.js"></script>
+<script type="text/babel" src="src/screens/Today.jsx"></script>
+<script type="text/babel" src="src/screens/Schedule.jsx"></script>
+<script type="text/babel" src="src/screens/Homework.jsx"></script>
+<script type="text/babel" src="src/screens/Parent.jsx"></script>
+<script type="text/babel" src="src/screens/Teacher.jsx"></script>
+<script type="text/babel" src="src/screens/Mobile.jsx"></script>
+<script type="text/babel" src="src/App.jsx"></script>
+</body>
+</html>
