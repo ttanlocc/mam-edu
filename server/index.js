@@ -1,6 +1,11 @@
 import express from 'express';
 import Database from 'better-sqlite3';
 import { mkdirSync } from 'node:fs';
+import matter from 'gray-matter';
+import { readFileSync, statSync, readdirSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
+
+const CONTENT_DIR = process.env.GIEO_CONTENT || join(process.cwd(), '..', 'content');
 
 const DB_PATH = process.env.GIEO_DB || '/data/gieo.db';
 const PORT    = Number(process.env.PORT || 3000);
@@ -24,6 +29,19 @@ db.exec(`
     created_at INTEGER NOT NULL
   );
 `);
+
+// Content cache — invalidate by file mtime
+const contentCache = new Map();
+function readContent(absPath) {
+  const stat = statSync(absPath);
+  const cached = contentCache.get(absPath);
+  if (cached && cached.mtimeMs === stat.mtimeMs) return cached.parsed;
+  const text = readFileSync(absPath, 'utf8');
+  const { data, content } = matter(text);
+  const parsed = { ...data, body: content.trim() || null };
+  contentCache.set(absPath, { mtimeMs: stat.mtimeMs, parsed });
+  return parsed;
+}
 
 const getState = db.prepare('SELECT json FROM state WHERE id = 1');
 const upsertState = db.prepare(`
@@ -66,6 +84,53 @@ app.post('/api/writing', (req, res) => {
   };
   const out = insertWriting.run(row);
   res.json({ ok: true, id: out.lastInsertRowid });
+});
+
+// ──────────────────────────────────────────────────────────────
+// Content endpoints — read-only, served from CONTENT_DIR
+// ──────────────────────────────────────────────────────────────
+
+app.get('/api/courses', (_req, res) => {
+  const coursesDir = join(CONTENT_DIR, 'courses');
+  if (!existsSync(coursesDir)) return res.json([]);
+  const list = readdirSync(coursesDir, { withFileTypes: true })
+    .filter(e => e.isDirectory())
+    .map(e => {
+      const file = join(coursesDir, e.name, 'course.md');
+      if (!existsSync(file)) return null;
+      try {
+        const c = readContent(file);
+        return {
+          id: c.id, code: c.code, from: c.from, to: c.to,
+          name: c.name, months: c.months, days: c.days,
+          blocks_per_day: c.blocks_per_day, per_day: c.per_day,
+          tree: c.tree, recommended: !!c.recommended,
+        };
+      } catch { return null; }
+    })
+    .filter(Boolean);
+  res.json(list);
+});
+
+app.get('/api/courses/:id', (req, res) => {
+  const file = join(CONTENT_DIR, 'courses', req.params.id, 'course.md');
+  if (!existsSync(file)) return res.status(404).json({ error: 'course_not_found' });
+  try {
+    res.json(readContent(file));
+  } catch (err) {
+    res.status(500).json({ error: 'parse_error', detail: String(err.message) });
+  }
+});
+
+app.get('/api/courses/:id/weeks/:n', (req, res) => {
+  const n = String(req.params.n).padStart(2, '0');
+  const file = join(CONTENT_DIR, 'courses', req.params.id, 'weeks', `w${n}.md`);
+  if (!existsSync(file)) return res.status(404).json({ error: 'week_not_found' });
+  try {
+    res.json(readContent(file));
+  } catch (err) {
+    res.status(500).json({ error: 'parse_error', detail: String(err.message) });
+  }
 });
 
 app.listen(PORT, '0.0.0.0', () => console.log(`gieo-api on :${PORT} · db=${DB_PATH}`));
