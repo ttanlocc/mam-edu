@@ -1,0 +1,11 @@
+services:
+  api:
+    build: ./server
+    restart: unless-stopped
+    environment:
+      GIEO_DB: /data/gieo.db
+      PORT: "3000"
+    volumes:
+      - ./data:/data
+    ports:
+      - "127.0.0.1:3030:3000"
