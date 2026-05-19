@@ -5,7 +5,9 @@ services:
     environment:
       GIEO_DB: /data/gieo.db
       PORT: "3000"
+      GIEO_CONTENT: /app/content
     volumes:
       - ./data:/data
+      - ./content:/app/content:ro
     ports:
       - "127.0.0.1:3030:3000"
