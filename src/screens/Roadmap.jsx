@@ -1,5 +1,24 @@
 function RoadmapScreen() {
-  const D = window.GIEO_PLAN;
+  const [course, setCourse] = React.useState(null);
+  const [err, setErr] = React.useState(null);
+
+  React.useEffect(() => {
+    const id = window.gieoApi.currentCourseId();
+    window.gieoApi.getCourse(id).then(setCourse).catch(e => setErr(String(e)));
+  }, []);
+
+  if (err) return <div style={{padding:24,color:'#a33',fontFamily:'monospace'}}>Roadmap load error: {err}</div>;
+  if (!course) return <div style={{padding:24,color:'#888'}}>Đang tải lộ trình…</div>;
+
+  const D = {
+    student: {
+      current_overall: course.student_defaults?.current_overall ?? 0,
+      target_overall: course.student_defaults?.target_overall ?? 0,
+      days_to_test: course.student_defaults?.days_to_test ?? 0,
+    },
+    phases: course.phases || [],
+    bands: course.bands || [],
+  };
 
   // 12 months, first 3 done, month 4 current
   const months = Array.from({length:12}, (_, i) => ({
