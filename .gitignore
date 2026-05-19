@@ -1,0 +1,6 @@
+.playwright-mcp/
+data/*.db
+data/*.db-shm
+data/*.db-wal
+node_modules/
+.DS_Store

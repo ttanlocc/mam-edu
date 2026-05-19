@@ -14,7 +14,7 @@
 2. **Weekly template** — `week_grid`, `week_milestones`, `today_blocks` (tĩnh, dùng chung).
 3. **User state** — `student.seeds/streak/tree_stage`, `feedback_log`, `band_trend` (động, riêng user).
 
-Frontend đọc thẳng `window.GIEO_PLAN` hardcoded → không thể có 2 khóa, không thể sửa nội dung mà không deploy code.
+Frontend dùng một biến toàn cục `window.GIEO_PLAN` cho cả 5 screens (`src/data.js` fetch `/content/plan.yaml` rồi expose qua promise `GIEO_PLAN_READY`). Mọi thứ — catalog, template, state — đều đi qua một object → không thể có 2 khóa song song, không thể tách progress khỏi content.
 
 Mục tiêu spec này: **content sống ngoài code, server biết phục vụ content, một screen chứng minh pipeline chạy**. Không hơn.
 
@@ -128,7 +128,7 @@ Tuần 14 đặt nặng feedback loop — Lan H. chấm thứ Năm, Mock thứ B
 
 ## 5. Backend Changes (`server/index.js`)
 
-Thêm gray-matter dependency, ~50 dòng code mới. **Không đụng schema DB.**
+Thêm `gray-matter` dependency vào `server/package.json`, ~60 dòng code mới. **Không đụng schema DB.**
 
 ```
 GET  /api/courses
@@ -143,16 +143,23 @@ GET  /api/courses/:id/weeks/:n
 
 **Cache:** `Map<filepath, {mtime, parsed}>`, invalidate khi `fs.statSync().mtimeMs` đổi → file edit reload tức thì, không restart server.
 
+**Content path resolution:** `const CONTENT_DIR = process.env.GIEO_CONTENT || '/app/content';` — tham số hoá để dev local (chạy `node index.js` từ repo root) khác container path.
+
+**Wiring container:**
+- `server/Dockerfile`: thêm `COPY content /app/content` (hoặc để docker-compose mount thay).
+- `docker-compose.yml`: thêm volume `./content:/app/content:ro` cạnh `./data:/data` để edit content không cần rebuild image.
+
 **Endpoint cũ (`/api/state`, `/api/writing`) giữ nguyên.** Spec multi-user sau sẽ deprecate.
 
 ## 6. Frontend Changes
 
 | File | Thay đổi |
 |---|---|
-| `src/lib/api.js` (mới) | Wrapper `window.gieoApi`: `getCourses()`, `getCourse(id)`, `getWeek(id, n)`. Demo mode (config chưa set) → fetch tĩnh `/content/courses/...` qua chính Express (server đã serve static được). |
-| `src/screens/Roadmap.jsx` | Đổi từ đọc `window.GIEO_PLAN` sang `useEffect(() => gieoApi.getCourse(courseId))`. **Proof of concept duy nhất ở Bước 1.** |
-| `src/data.js` | Giữ nguyên cho Today/Week/CourseSelect tiếp tục chạy. Đánh dấu deprecated trong comment. |
-| Các screen khác | **Không đụng.** Migrate dần ở các spec/PR sau. |
+| `src/lib/api.js` (mới) | Wrapper `window.gieoApi`: `getCourses()`, `getCourse(id)`, `getWeek(id, n)`. Endpoint base lấy từ `window.GIEO_CONFIG.API_BASE` (mặc định `''` = same-origin). **Không có** demo-mode tĩnh fallback ở Bước 1 — nếu API down, screen show error state. Demo-mode static fallback sẽ là spec riêng nếu cần. |
+| `src/screens/Roadmap.jsx` | Đổi từ `window.GIEO_PLAN` sang `useEffect` gọi `gieoApi.getCourse(courseId)`. `courseId` lấy: `JSON.parse(localStorage.getItem('gieo_course') \|\| 'null')?.id ?? 'ielts-70-80'`. **Proof of concept duy nhất ở Bước 1.** |
+| `src/data.js` | **Giữ nguyên hoàn toàn** ở Bước 1. Today/Week/Writing/Feedback/CourseSelect vẫn đọc `window.GIEO_PLAN` (load từ `plan.yaml`). |
+| `content/plan.yaml` | **Giữ nguyên ở Bước 1.** Chỉ xóa ở Bước cuối khi tất cả 5 screen đã migrate sang `gieoApi`. |
+| Các screen khác | **Không đụng** trong PR Bước 1. Migrate từng cái ở các PR sau (mỗi screen 1 PR). |
 
 ## 7. Resolution Flow (`GET /api/courses/:id/weeks/:n`)
 
@@ -169,15 +176,21 @@ Không có bước merge override, không có resolve reference. Khi nào đụn
 |---|---|---|
 | R1 | Memory file ghi backend Supabase, hiện thực Express+SQLite | Update memory khi merge spec này. |
 | R2 | Lặp nội dung block giữa các tuần khi viết w15, w16, w17 | Chấp nhận. Refactor sang `blocks/` khi tuần thứ 3 lặp cùng template — đó là tín hiệu spec block-reuse. |
-| R3 | Roadmap mới dùng API, Today/Week vẫn `GIEO_PLAN` → 2 source of truth tạm thời | Có chủ ý. State này tồn tại tối đa cho tới khi viết spec/PR migrate Today/Week. Note rõ trong CLAUDE.md. |
+| R3 | Roadmap mới dùng API, Today/Week vẫn `GIEO_PLAN` → 2 source of truth tạm thời | Có chủ ý. State này tồn tại tối đa cho tới khi viết spec/PR migrate Today/Week. Note rõ trong CLAUDE.md. Phải đảm bảo `plan.yaml` và `course.md` *đồng bộ thủ công* trong giai đoạn chuyển — sửa 1 chỗ phải sửa 2. Đây là pain point có chủ đích để gây áp lực hoàn tất migration nhanh. |
+| R4 | Memory file nói backend = Supabase, thực tế hybrid (Supabase auth + Express/SQLite cho state/content) | Update `MEMORY.md project_gieo.md` khi merge PR Bước 1 để reflect "hybrid": auth = Supabase (`src/lib/auth.js`), content + state = Express/SQLite. |
 
-## 9. Success Criteria
+## 9. Success Criteria (Bước 1 — PR đầu)
 
-- [ ] `content/courses/ielts-70-80/course.md` + `weeks/w14.md` tồn tại, là source of truth duy nhất cho dữ liệu khóa.
-- [ ] `content/plan.yaml` xóa được (hoặc rỗng).
-- [ ] `curl localhost:3000/api/courses/ielts-70-80` trả JSON đầy đủ phases/bands/pitfalls.
-- [ ] Roadmap screen render đúng như trước, nhưng data đến từ fetch.
-- [ ] Sửa `course.md` → refresh browser → thấy thay đổi. Không restart server.
+- [ ] `content/courses/ielts-70-80/course.md` + `weeks/w14.md` tồn tại, parse được, chứa tất cả field mà Roadmap hiện đang dùng từ `plan.yaml` (`phases`, `bands`, `student.days_to_test`, `student.current_overall`, `student.target_overall`).
+- [ ] `content/plan.yaml` **vẫn còn** (Today/Week/Writing/Feedback/CourseSelect chưa migrate).
+- [ ] `curl http://127.0.0.1:3030/api/courses` trả array có 1 phần tử (`ielts-70-80`).
+- [ ] `curl http://127.0.0.1:3030/api/courses/ielts-70-80` trả JSON đầy đủ `phases[]`, `bands[]`, `pitfalls[]`.
+- [ ] Roadmap screen render đúng như trước (visual diff zero), nhưng DevTools Network tab cho thấy data đến từ `/api/courses/ielts-70-80` thay vì `plan.yaml`.
+- [ ] Sửa `course.md` (ví dụ đổi `target` của phase 2 từ "7.5" → "7.6") → refresh browser → Roadmap hiển thị "7.6". Không restart `docker compose`.
+
+## 9.1 Final criterion (đạt được sau khi tất cả 5 screen migrate ở các PR sau)
+
+- [ ] `content/plan.yaml` xoá. `src/data.js` xoá. `js-yaml` CDN script ở `index.html:607` xoá.
 
 ## 10. Next Specs (khi cần)
 
