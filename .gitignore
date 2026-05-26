@@ -4,5 +4,4 @@ data/*.db-shm
 data/*.db-wal
 node_modules/
 .DS_Store
-scripts/roadmap-after.png
-scripts/tour-*.png
+scripts/*.png
