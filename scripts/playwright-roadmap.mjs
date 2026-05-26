@@ -20,13 +20,13 @@ page.on('pageerror', e => consoleErrors.push(String(e)));
 await page.goto(BASE, { waitUntil: 'domcontentloaded' });
 await page.evaluate(() => {
   localStorage.setItem('gieo_demo_user', JSON.stringify({ email: 'demo@gieo.local' }));
-  // Full course payload matching CourseSelect's handleStart() — Sidebar/Today need streak/seeds.
+  // Updated to 12-month plan (from 6.5, months: 12, per_day: 4h)
   localStorage.setItem('gieo_course', JSON.stringify({
-    id: 'ielts-70-80', code: 'IELTS', from: '7.0', to: '8.0',
-    name: 'IELTS · Tinh chỉnh', days_to_test: 244,
+    id: 'ielts-70-80', code: 'IELTS', from: '6.5', to: '8.0',
+    name: 'IELTS · Lộ trình 8.0', days_to_test: 365,
     streak: 0, seeds: 0, tree_stage: 0,
     started_at: new Date().toISOString(),
-    blocks_per_day: 5, per_day: '4h 45′', months: 8,
+    blocks_per_day: 5, per_day: '4h', months: 12,
   }));
 });
 await page.goto(BASE + '/#/roadmap', { waitUntil: 'networkidle' });
@@ -50,12 +50,45 @@ await page.waitForTimeout(1500);
 const text = await page.evaluate(() => document.body.innerText);
 
 const checks = [
-  ['LỘ TRÌNH · 12 THÁNG header',     text.includes('LỘ TRÌNH · 12 THÁNG')],
-  ['Phase 2 "Skill Building"',       text.includes('Skill Building')],
-  ['Phase 1 "Foundations"',          text.includes('Foundations')],
-  ['Reading band row',               text.includes('READING')],
-  ['BẠN ĐANG Ở ĐÂY marker',          text.includes('BẠN ĐANG Ở ĐÂY')],
-  ['No console errors',              consoleErrors.length === 0],
+  // ── Header & strip ───────────────────────────────────────────────────────
+  ['LỘ TRÌNH · 12 THÁNG header',          text.includes('LỘ TRÌNH · 12 THÁNG')],
+  ['Score "6.0 → 8.0"',                   text.includes('6') && text.includes('8')],
+  ['Month strip shows T1 current',         text.includes('T1')],
+  ['Status: "Đang ở Tháng 1"',            text.includes('Tháng 1')],
+  ['Status: "Phase 1"',                   text.includes('Phase 1')],
+
+  // ── Phase rows ────────────────────────────────────────────────────────────
+  ['Phase 1 "Foundations" shown',          text.includes('Foundations')],
+  ['Phase 2 "Skill Building" shown',       text.includes('Skill Building')],
+  ['Phase 3 "Refinement" shown',           text.includes('Refinement')],
+  ['Phase 4 "Exam Readiness" shown',       text.includes('Exam Readiness')],
+  ['BẠN ĐANG Ở ĐÂY on Phase 1',           text.includes('BẠN ĐANG Ở ĐÂY')],
+  ['Phase 1 span "06·2026"',               text.includes('06·2026')],
+
+  // ── Band targets ──────────────────────────────────────────────────────────
+  ['READING band row',                     text.includes('READING')],
+  ['WRITING "–" (untested)',               text.includes('–')],
+  ['SPEAKING band shows target 7.5',       text.includes('7.5')],
+
+  // ── Schedule grid ─────────────────────────────────────────────────────────
+  ['Schedule section header',             text.includes('PHÂN BỔ THỜI GIAN')],
+  ['Writing 90′ in Phase 1',              text.includes("90′")],
+  ['Vocab 30′ in Phase 1',               text.includes("30′")],
+
+  // ── Materials ─────────────────────────────────────────────────────────────
+  ['Sách bắt buộc section',               text.includes('SÁCH BẮT BUỘC')],
+  ['Cambridge IELTS 14–20 listed',         text.includes('Cambridge IELTS')],
+  ['Ứng dụng section',                     text.includes('ỨNG DỤNG')],
+  ['Anki listed',                          text.includes('Anki')],
+  ['Nguồn miễn phí section',              text.includes('NGUỒN MIỄN PHÍ')],
+  ['ielts-simon.com listed',               text.includes('ielts-simon.com')],
+
+  // ── YouTube ───────────────────────────────────────────────────────────────
+  ['YouTube section',                      text.includes('YOUTUBE')],
+  ['IELTS Simon channel',                  text.includes('IELTS Simon')],
+
+  // ── No errors ────────────────────────────────────────────────────────────
+  ['No console errors',                    consoleErrors.length === 0],
 ];
 
 let failed = 0;
@@ -69,7 +102,8 @@ if (consoleErrors.length) {
 }
 
 await page.screenshot({ path: 'scripts/roadmap-after.png', fullPage: true });
-console.log('Screenshot: scripts/roadmap-after.png');
+console.log(`\nScreenshot: scripts/roadmap-after.png`);
+console.log(`\n${failed === 0 ? '✓ All checks passed' : `✗ ${failed} check(s) failed`}`);
 
 await browser.close();
 process.exit(failed > 0 ? 1 : 0);

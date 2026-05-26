@@ -64,7 +64,8 @@ h3 { margin:0; }
   gap:22px; align-items:start;
 }
 .app.narrow { grid-template-columns:auto 1fr; }
-@media (max-width:1100px) { .app { grid-template-columns:1fr } .side,.rail { display:none } }
+/* Grid columns only — display:none for .side/.rail is declared AFTER the sidebar block (source-order fix) */
+@media (max-width:1100px) { .app, .app.narrow { grid-template-columns:1fr } }
 
 /* ── Sidebar ─────────────────────────────────────── */
 .side {
@@ -133,6 +134,9 @@ h3 { margin:0; }
 .side.collapsed .tree-card { display:none; }
 .tree-card .stage { font-family:var(--font-mono); font-size:9.5px; letter-spacing:0.12em; color:var(--coral); }
 .totals { display:flex; justify-content:space-between; padding:0 6px; margin-top:8px; font-family:var(--font-mono); font-size:10px; color:var(--ink-2); letter-spacing:0.06em; }
+
+/* Hide sidebar + rail on tablet/mobile — placed AFTER .side { display:flex } so source order wins */
+@media (max-width:1100px) { .side, .rail { display:none } }
 
 /* ── Utilities ──────────────────────────────────────*/
 .eye { font-family:var(--font-mono); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mute); }
@@ -333,6 +337,120 @@ h3 { margin:0; }
 .tgt.W { border-left-color:var(--butter); } .tgt.W .bar > div { background:var(--butter); }
 .tgt.S { border-left-color:var(--sky); }    .tgt.S .bar > div { background:var(--sky); }
 .tgt.L { border-left-color:var(--sage); }   .tgt.L .bar > div { background:var(--sage); }
+
+/* ── Roadmap schedule grid ───────────────────────── */
+.sched-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:16px; }
+.sched-cell { padding:12px 14px; background:var(--bg); border:1px solid var(--hair); border-radius:10px; }
+.sched-ph { font-family:var(--font-mono); font-size:9px; letter-spacing:0.12em; color:var(--mute); margin-bottom:8px; text-transform:uppercase; }
+.sched-ph.cur { color:var(--coral); }
+.sched-row { display:flex; justify-content:space-between; font-size:11px; line-height:1.9; }
+.sched-row .sk { color:var(--ink-2); }
+.sched-row .mn { font-family:var(--font-mono); font-size:10px; font-weight:600; }
+.sched-total { font-family:var(--font-mono); font-size:9px; color:var(--mute); margin-top:8px; padding-top:6px; border-top:1px solid var(--hair); letter-spacing:0.06em; }
+
+/* ── Materials / books grid ──────────────────────── */
+.mats-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:16px; }
+.mat-item { padding:12px 14px; background:var(--bg); border:1px solid var(--hair); border-radius:10px; }
+.mat-title { font-size:12px; font-weight:500; color:var(--ink); line-height:1.4; }
+.mat-meta { font-family:var(--font-mono); font-size:9.5px; color:var(--mute); margin-top:4px; letter-spacing:0.04em; }
+.mat-list { display:flex; flex-direction:column; }
+.mat-row { display:flex; gap:12px; align-items:baseline; padding:5px 0; border-bottom:1px solid var(--hair); }
+.mat-row:last-child { border-bottom:0; }
+.mat-row .ml-nm { font-size:11.5px; font-weight:500; color:var(--coral); flex:0 0 160px; line-height:1.4; }
+.mat-row .ml-note { font-size:11px; color:var(--ink-2); flex:1; line-height:1.4; }
+
+/* ── YouTube channels grid ───────────────────────── */
+.yt-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:12px; }
+.yt-item { padding:10px 14px; background:var(--bg); border:1px solid var(--hair); border-radius:10px; }
+.yt-ch { font-size:12px; font-weight:500; color:var(--ink); }
+.yt-for { font-size:11px; color:var(--ink-2); margin-top:3px; line-height:1.4; }
+
+/* ── Apps + Free 2-col wrapper ───────────────────── */
+.mat-2col { display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+
+/* ── Responsive: roadmap mobile (≤640px) ─────────── */
+@media (max-width:640px) {
+  /* Phase rows → single column stack */
+  .phase-row { grid-template-columns:1fr; gap:12px; }
+  .phase-row.cur { margin:0 -12px; padding:20px 12px; }
+  .pr-right {
+    flex-direction:row; align-items:center; text-align:left;
+    gap:12px; flex-wrap:wrap;
+    border-top:1px solid var(--hair); padding-top:12px;
+  }
+  .pr-target { font-size:26px; }
+
+  /* Band targets → 2×2 */
+  .targets { grid-template-columns:repeat(2,1fr); }
+
+  /* Schedule grid → 2×2 */
+  .sched-grid { grid-template-columns:repeat(2,1fr); }
+
+  /* Books → single column */
+  .mats-grid { grid-template-columns:1fr; }
+
+  /* Apps/Free → single column */
+  .mat-2col { grid-template-columns:1fr; gap:20px; }
+
+  /* YouTube → single column */
+  .yt-grid { grid-template-columns:1fr; }
+
+  /* Hero score: tighten */
+  .page-hero { align-items:flex-start; }
+
+  /* Mat row: allow name to wrap */
+  .mat-row .ml-nm { flex:0 0 auto; min-width:0; }
+}
+
+/* ── Responsive: roadmap tablet (641–900px) ──────── */
+@media (min-width:641px) and (max-width:900px) {
+  /* Phase rows → left+mid span, right fixed */
+  .phase-row { grid-template-columns:1fr 140px; }
+  /* Achievements span both conceptually in the middle */
+  .pr-mid { grid-column:1; }
+  .pr-right { grid-column:2; grid-row:1; }
+
+  /* Schedule → 2×2 */
+  .sched-grid { grid-template-columns:repeat(2,1fr); }
+}
+
+/* ── Mobile bottom nav ──────────────────────────── */
+.mob-nav { display:none; }
+
+@media (max-width:768px) {
+  /* Reduce page padding + add room for bottom nav */
+  .app, .app.narrow {
+    padding:16px 16px calc(68px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Show bottom tab bar */
+  .mob-nav {
+    display: flex;
+    position: fixed; bottom:0; left:0; right:0;
+    height: calc(56px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: var(--bg);
+    border-top: 1px solid var(--hair);
+    z-index: 200;
+  }
+  .mn-item {
+    flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:2px; text-decoration:none;
+    color: var(--mute);
+    font-family: var(--font-mono); font-size:8.5px; letter-spacing:0.09em; text-transform:uppercase;
+    padding: 8px 4px 6px;
+    border-top: 2px solid transparent;
+    transition: color 0.12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mn-item.active { color:var(--ink); border-top-color:var(--coral); }
+  .mn-item:active  { opacity:0.7; }
+  .mn-gly { font-size:17px; line-height:1.15; }
+  .mn-lbl { font-size:8px; }
+
+  /* topnav: hide verbose stats on tiny screens */
+  .topnav .meta span:nth-child(2) { display:none; }
+}
 
 /* ── Pattern list (Feedback) ─────────────────────── */
 .pat {

@@ -2,10 +2,14 @@
 // Exposes window.gieoApi for screens to use.
 
 (function () {
-  const base = (window.GIEO_CONFIG && window.GIEO_CONFIG.API_BASE) || '';
+  // Read base lazily at call-time so that window.GIEO_CONFIG can be set
+  // at any point (e.g. by tests after page load) and still be honoured.
+  function getBase() {
+    return (window.GIEO_CONFIG && window.GIEO_CONFIG.API_BASE) || '';
+  }
 
   async function getJson(path) {
-    const res = await fetch(base + path, { cache: 'no-cache' });
+    const res = await fetch(getBase() + path, { cache: 'no-cache' });
     if (!res.ok) throw new Error(`${path} → ${res.status}`);
     return res.json();
   }
@@ -22,7 +26,7 @@
   }
 
   window.gieoApi = {
-    base,
+    get base() { return getBase(); },
     currentCourseId,
     getCourses: () => getJson('/api/courses'),
     getCourse: (id) => getJson(`/api/courses/${encodeURIComponent(id)}`),
