@@ -65,9 +65,9 @@ Block-level keys (each item in `blocks`):
 3. `days` has 6 entries `T2..T7`; each `dow` matches a milestone `d`.
 4. Each day has **4–6 blocks**; **at most ONE block per `kind`** (the week grid shows one cell per skill/day).
 5. Every block: `id` unique in day, valid `kind`, correct `kind_color`, `duration` int, `tasks` non-empty, **Σ tasks.m == duration**, `reward_seeds` int, `href` correct.
-6. Weekday total (T2–T6) ≈ 195–225 min; Saturday T7 (mock/review) 5–6 blocks ≈ 240–300 min; Sunday rest.
+6. Weekday total (T2–T6) ≈ 195–220 min (4 blocks); Saturday T7 (mock/review) 5–6 blocks ≈ **205–240 min in Phase 1–2** (section mocks + review, matching w1–13), **≈ 250–300 min in Phase 3–4** (full timed 4-skill mock + scoring + error analysis); Sunday rest.
 7. **Every material citation ∈ Material Inventory** (Rule #1) — a downloaded item (`NgọcBách`/`ChépChínhTả`/`NguyễnHuyền`/`NghĩaPhan`/`RoadToIELTS`/`TúPhạm`) or a feedback service. NO Cambridge-book/Simon/Cullen/Hancock/Collins.
-8. The materials used match the week's row in `curriculum-map.md` and the phase (e.g. NghĩaPhan/RoadToIELTS mocks only from Phase 2+; feedback loop only Phase 2+).
+8. The materials used match the week's row in `curriculum-map.md` and the phase (e.g. NghĩaPhan/RoadToIELTS mocks only from Phase 2+; **weekly** feedback loop from Phase 2+ — BUT Phase 1 carries DIAGNOSTIC feedback checkpoints at w4/w8/w13 (writing marking) + one italki speaking diagnostic (~w13), and w13 = first full 4-skill timed mock). Speaking aims **8.0** (insurance); Writing 7.0 floor acceptable if S hits 8.0.
 
 ### Worked example (a valid day — mirror this exact YAML shape)
 ```yaml
@@ -156,17 +156,17 @@ verdicts, gaps) lives in **`material-inventory.md`**. Cite ONLY items from there
 
 ## Per-skill progression (drives each week's tasks — all cited from the archive)
 
-**WRITING 0→7.5** (heaviest block; build on NgọcBách, then marking loop):
-- P1: work `NgọcBách · Writing Online` in order — Task 1 (LINE→BAR→PIE→TABLE→PROCESS→MAP) then Task 2 (DISCUSS OPINION→DISCUSS→CAUSES SOLUTIONS→2 PART) then `BONUS _3`. Each lesson = watch `.TS` video → study slide + `HUONG-DAN-ON-TAP` PDF + vocab mp3 → self-write full response → self-review vs the model (method per `COURSE CURRICULUM`).
+**WRITING 0→7.5** (sàn 7.0 chấp nhận nếu S đạt 8.0; heaviest block; build on NgọcBách, then marking loop):
+- P1: work `NgọcBách · Writing Online` in order — Task 1 (LINE→BAR→PIE→TABLE→PROCESS→MAP) then Task 2 (DISCUSS OPINION→DISCUSS→CAUSES SOLUTIONS→2 PART) then `BONUS _3`. Each lesson = watch `.TS` video → study slide + `HUONG-DAN-ON-TAP` PDF + vocab mp3 → self-write full response → self-review vs the model (method per `COURSE CURRICULUM`). **Diagnostic marking checkpoints:** submit one representative essay to `Writing marking (writing9/tutor)` at w4 (Task 1), w8 (first Task 2), w13 (phase close) — don't wait for Phase 2.
 - P2: **weekly `Writing marking`** on a timed Task 2, rewrite from the marks; fold `NgọcBách · COLLOCATIONS 1–6` + Vocabulary-online lexis into essays. `[opt]` compare one band-8 model.
 - P3: eliminate recurring Error-Log errors → "majority error-free" (GRA 7.5); marking confirms 7.5 on all 4 criteria. `[opt]` grammar top-up if a structure keeps failing.
 - P4: full timed essays exam-conditions; hold 7.5.
 
-**SPEAKING 0→7.5** (NgọcBách scripts + vocab + tutor loop):
-- P1: study `NgọcBách` 15 Part 2 scripts (one/week as model) + `Vocabulary online` topic lexis for Part 1/3 answers + `PARAPHRASE` phrasal-verb notes; record own answers, self-review; shadow `NguyễnHuyền · BBC` for connected speech.
+**SPEAKING 0→7.5 (nhắm 8.0 làm BẢO HIỂM)** (NgọcBách scripts + vocab + tutor loop):
+- P1: study `NgọcBách` 15 Part 2 scripts (one/week as model) + `Vocabulary online` topic lexis for Part 1/3 answers + `PARAPHRASE` phrasal-verb notes; record own answers, self-review; shadow `NguyễnHuyền · BBC` for connected speech. **One `italki` diagnostic session ~w13** (calibrate before Phase 2).
 - P2: **`italki` 2×/wk** tutor feedback (Part 1/2/3) + `ELSA` pronunciation → target 7.0.
-- P3: lexical range + pronunciation features; iTk mock scored; confirm 7.5.
-- P4: iTk exam mocks; hold fluency under pressure.
+- P3: lexical range + pronunciation features; iTk mock scored; confirm 7.5, **aim 8.0**.
+- P4: iTk exam mocks; hold fluency under pressure, **push 8.0**.
 
 **READING hold 9.0** (NgọcBách technique + test banks):
 - P1: work `NgọcBách · Reading Online` 8 q-type modules (2–9) in order — each = video + slide + practice PDF (real Cambridge passages, bilingual paraphrase); build Error Log.
@@ -183,7 +183,8 @@ verdicts, gaps) lives in **`material-inventory.md`**. Cite ONLY items from there
 **VOCAB:** one `NgọcBách · Vocabulary online` topic/week (19 topics, then review) + `COLLOCATIONS 1–6`; `TúPhạm` Inventions set opportunistically. 15 collocations/day into Anki (production cards).
 
 ## Weekly cadence
-- **Saturday (T7)** = mock/review day, `special:true`. P1–2: timed L + R (per schedule book) + review + one model-study block. P3–4: fuller timed mock + scoring + error analysis.
+- **Saturday (T7)** = mock/review day, `special:true`. P1–2: timed L + R (per schedule book) + review + one model-study block. P3–4: fuller timed mock + scoring + error analysis. **w13 Saturday = first FULL 4-skill timed mock** (L→R→W→S back-to-back, exam pressure).
+- **Phase 1 diagnostic feedback:** submit one essay for marking at **w4/w8/w13** + one **italki** diagnostic (~w13) — do NOT wait for Phase 2.
 - **Phase 2+**: one weekday (mark `special:true`) = `italki` Speaking session; `Writing feedback` returned + reviewed once per week.
 - **Sunday (CN)** = rest/deload, no blocks.
 

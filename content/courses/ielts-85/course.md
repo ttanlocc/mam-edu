@@ -17,6 +17,20 @@ student_defaults:
   days_to_test: 365
   current_month: 1
 
+# Hồ sơ người học — baseline THẬT, lưu kèm khóa học (cập nhật 2026-07-07).
+# Nguồn sự thật cho target + điểm xuất phát. Roadmap.jsx chưa render block này (mới chỉ lưu).
+student_profile:
+  tested_before: false          # chưa từng thi IELTS
+  hours_per_day: 4
+  target: { overall: 8.5, listening: 9.0, reading: 9.0, writing: 7.5, speaking: 7.5 }
+  baseline:
+    reading:   { range: "7.5–9.0", note: "Cambridge test — đã mạnh; chỉ cần khóa cứng 9.0" }
+    listening: { range: "7.0–9.0", note: "dao động, sàn 7.0 — dictation kéo lên 9.0 ổn định" }
+    writing:   { range: "0",       note: "chưa từng học/viết — xây từ 0" }
+    speaking:  { range: "0",       note: "chưa từng học/nói — xây từ 0" }
+  note: "Nền tiếp nhận (R/L) rất mạnh nhưng chưa từng sản sinh (W/S). Điểm nghẽn là chất lượng + độ đều của feedback W/S, không phải tổng số giờ. Σ4 kỹ năng phải ≥ 33 để ra 8.5; L9·R9·W7.5·S7.5 = đúng 33 (zero-slack)."
+  strategy: "Nhắm S8.0 làm bảo hiểm cho overall 8.5 (nếu W kẹt 7.0 thì L9·R9·W7.0·S8.0 = 33 → vẫn 8.5). Chấm bài + italki chẩn đoán ngay Phase 1 (w4/w8/w13), không đợi Phase 2. Full mock 4 kỹ năng lần đầu ở w13."
+
 # Phân bổ phút/ngày theo phase. Tổng = 240 phút = 4h.
 # W/S (xây từ 0 → 7.5) chiếm phần lớn thời gian; LR là "bảo trì độ chính xác" để khóa cứng 9.0.
 schedule:
@@ -35,10 +49,12 @@ phases:
     current: true
     current_ach: "Xây nền W/S từ 0 · dựng kỷ luật chính xác cho LR"
     achievements:
-      - "Hancock pronunciation (IPA + word stress) hoàn tất"
-      - "Grammar nền: viết câu phức CHÍNH XÁC (Murphy → Cambridge Grammar)"
+      - "Phát âm nền (IPA + trọng âm) qua ELSA + shadow NguyễnHuyền·BBC"
+      - "Grammar nền: viết câu phức CHÍNH XÁC (phân tích model + tự sửa)"
       - "Task 1 overview + Task 2 4-đoạn: viết được bài hoàn chỉnh untimed"
       - "Speaking Part 1–3: nói 2 phút không khựng dài"
+      - "Chấm bài chẩn đoán sớm w4·w8·w13 + 1 buổi italki chẩn đoán (KHÔNG đợi Phase 2)"
+      - "w13: full mock 4 kỹ năng timed liền mạch · làm quen áp lực thi"
       - "LR: dựng Error Log + dictation 3x/tuần · giữ 8.0+"
       - "Anki 15 từ/ngày · collocation-first"
 
@@ -65,7 +81,7 @@ phases:
     achievements:
       - "Diệt recurring errors W: đạt 'majority error-free' (ngưỡng GRA 7.5)"
       - "Writing 7.5 xác nhận qua examiner · đủ cả 4 tiêu chí"
-      - "Speaking 7.5 xác nhận · fluency + pronunciation ổn định"
+      - "Speaking chạm 7.5, nhắm 8.0 (bảo hiểm) · fluency + pronunciation ổn định"
       - "L/R mock 39+/40 đều đặn (khóa cứng 9.0)"
       - "Full mock timed 1x/tuần · quyết định Go/No-go"
 
@@ -76,7 +92,7 @@ phases:
     target: "8.5"
     months: "10–12"
     achievements:
-      - "W & S giữ chắc 7.5 · Speaking không rớt fluency khi áp lực"
+      - "W giữ 7.5 (sàn 7.0) · Speaking giữ 7.5–8.0 · không rớt fluency khi áp lực"
       - "L & R zero-tolerance lỗi cẩu thả (giữ 9.0)"
       - "Full mock 1x/tuần timed · peak rồi deload"
       - "Ngày thi xác nhận · chốt điều kiện đỉnh"
@@ -84,8 +100,8 @@ phases:
 bands:
   - { k: R, name: Reading,   cur: 8.0, tgt: 9.0, color: coral,  status: "Ổn định 7.5–9.0 → khóa cứng 39–40/40" }
   - { k: L, name: Listening, cur: 7.5, tgt: 9.0, color: sage,   status: "Dao động 7.0–9.0 → dictation + đủ accent" }
-  - { k: W, name: Writing,   cur: 0,   tgt: 7.5, color: butter, status: "Xây từ 0 · ràng buộc khó nhất · zero slack" }
-  - { k: S, name: Speaking,  cur: 0,   tgt: 7.5, color: sky,    status: "Xây từ 0 · cả 4 tiêu chí phải chạm 7.5" }
+  - { k: W, name: Writing,   cur: 0,   tgt: 7.5, color: butter, status: "Xây từ 0 · mục tiêu 7.5; sàn 7.0 chấp nhận NẾU S đạt 8.0" }
+  - { k: S, name: Speaking,  cur: 0,   tgt: 7.5, color: sky,    status: "Xây từ 0 · mục tiêu 7.5 · LUYỆN nhắm 8.0 (bảo hiểm total 8.5)" }
 
 pitfalls:
   - { code: P1, name: "Passive-active gap",      note: "biết từ khi đọc nhưng sai collocation lúc viết/nói — 7.5 LR cần DÙNG đúng, không chỉ nhận diện", seen: 0, hot: true }
@@ -133,8 +149,8 @@ cambridge_schedule:
   - { month: 12, books: "Road to IELTS 8–9 dress rehearsal · deload · TEST ~28/06" }
 ---
 
-Lộ trình 12 tháng lên **overall 8.5** (L 9.0 · R 9.0 · W 7.5 · S 7.5) — 4h/ngày. Hai điểm tựa:
+Lộ trình 12 tháng lên **overall 8.5** (L 9.0 · R 9.0 · W 7.5 · S 7.5) — 4h/ngày. Ba điểm tựa:
 
-1. **Writing & Speaking xây từ 0 phải chạm 7.5 ở *cả 4* tiêu chí** — ràng buộc khó nhất. Không có feedback examiner đều từ Phase 2 thì gần như không lên nổi 7.5. Đây là lý do Writing giữ 85–90 phút/ngày gần như suốt lộ trình.
-2. **LR không có đệm (zero slack)** — combo 8.5 của bạn cần trung bình ≥ 8.25, mà L9+R9+W7.5+S7.5 = đúng 8.25, không dư. Nên dù đang mạnh, vẫn phải luyện độ chính xác mỗi ngày để khóa cứng 9.0 (39–40/40). Rớt một mắt xích — L xuống 8.5 hoặc W xuống 7.0 — là overall về 8.0.
+1. **Writing & Speaking xây từ 0 phải chạm 7.5 ở *cả 4* tiêu chí** — ràng buộc khó nhất. Từ số 0 KHÔNG thể tự chấm mà lên nổi 7.5 — cần mắt chuyên gia SỚM: có **chấm bài chẩn đoán ngay Phase 1** (w4 sau Task 1, w8 sau Task 2 đầu, w13 chốt phase) + 1 buổi italki chẩn đoán, rồi Phase 2 mới **chấm Writing mỗi tuần + italki 2 buổi/tuần**. Đây là lý do Writing giữ 85–90 phút/ngày gần như suốt lộ trình.
+2. **LR không có đệm (zero-slack)** — 8.5 cần Σ4 kỹ năng ≥ 33, mà L9+R9+W7.5+S7.5 = đúng 33, không dư. Rớt một mắt xích (L xuống 8.5, hoặc W xuống 7.0) là overall về 8.0. **Bảo hiểm:** nhắm **Speaking 8.0** — kỹ năng dễ kéo nhất với nền nghe mạnh + tutor; nếu Writing kẹt ở 7.0 thì L9·R9·W7.0·S8.0 = 33 → vẫn 8.5. Không hạ mục tiêu nào, chỉ dời nửa band "dư" sang Speaking. LR vẫn luyện chính xác mỗi ngày để khóa cứng 9.0 (39–40/40).
 3. **Tái dùng 100% kho tài liệu đã tải** (Ngọc Bách backbone + Chép Chính Tả + Nghĩa Phan + Nguyễn Huyền/BBC + Road to IELTS) — không phải tìm tài liệu ngoài. Kho đủ đưa L→9.0, R→9.0 và xây W/S tới ~7.0; chặng 7.0→7.5 của W/S dùng **vòng chấm bài** (đúng phương pháp "nộp bài sửa" của Ngọc Bách). Grammar & model band-8 là gap của kho — chỉ bổ sung nếu muốn đẩy nhanh.

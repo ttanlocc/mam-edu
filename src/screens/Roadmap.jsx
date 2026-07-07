@@ -28,6 +28,9 @@ function RoadmapScreen() {
     cur:  i + 1 === currentMonth,
   }));
 
+  // IELTS band: số nguyên hiển thị "7.0", nửa band giữ "7.5" (tránh render "8.5.0").
+  const fmtBand = (x) => Number.isInteger(x) ? `${x}.0` : `${x}`;
+
   // Skill labels + colors for schedule table
   const SKILLS = [
     { k: 'writing',   label: 'Writing',    color: 'butter' },
@@ -49,7 +52,7 @@ function RoadmapScreen() {
             <div>
               <div className="eye acc">● LỘ TRÌNH · {totalMonths} THÁNG</div>
               <h1 className="page-title">
-                {sd.current_overall ?? 0}.0 → <b>{sd.target_overall ?? 0}.0</b>
+                {fmtBand(sd.current_overall ?? 0)} → <b>{fmtBand(sd.target_overall ?? 0)}</b>
               </h1>
             </div>
             <div style={{textAlign:'right'}}>
@@ -127,7 +130,7 @@ function RoadmapScreen() {
                 <div key={b.k} className={`tgt ${b.k}`}>
                   <div className="k" style={{color:`var(--${b.color})`}}>{b.name.toUpperCase()}</div>
                   <div className="v">
-                    {b.cur > 0 ? b.cur : '–'}<small>→ {b.tgt}</small>
+                    {b.cur > 0 ? fmtBand(b.cur) : '–'}<small>→ {fmtBand(b.tgt)}</small>
                   </div>
                   <div className="frac">{b.status}</div>
                   <div className="bar"><div style={{width:`${pct}%`}}></div></div>

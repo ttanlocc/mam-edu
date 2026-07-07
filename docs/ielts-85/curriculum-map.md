@@ -3,7 +3,7 @@
 Every cell cites an item from `material-inventory.md` (the real archive in `laged-app`). Spec Rule #1 —
 closed corpus. Authoring agents expand each row into daily blocks. **Structure:** Phase 1 = *consume* the
 Ngọc Bách course (finite methods) + build dictation; Phases 2–4 = *apply* against the test banks + the
-weekly **W/S feedback loop** (Option 1) that pushes 7.0→7.5.
+weekly **W/S feedback loop** (Option 1) that pushes 7.0→7.5. **Strategy update (2026-07-07):** Speaking aims **8.0 as insurance** (W7.0 floor acceptable if S8.0 → still overall 8.5); **diagnostic feedback is pulled into Phase 1** (writing marking at w4/w8/w13 + one italki diagnostic), and **w13 = first full 4-skill timed mock**.
 
 **Cite short-forms:** `NB`=NgọcBách · `NB-R#`=NgọcBách Reading Online folder · `NB-W`=Writing Online ·
 `NB-V#`=Vocabulary online Chủ đề # · `CCT-I/CCT-A`=ChépChínhTả Intermediate/Advanced (lesson N) ·
@@ -51,7 +51,7 @@ Weekly **FB** on a timed Task 2; **iTk 2×/wk**; dictation ADVANCED + full-test 
 | 25 | speaking polish | Timed Task2 → FB | iTk mock scored; pronunciation features | NB-R10 Cambridge 11 re-timed | CCT-A 13–18 (2nd) + NP25 | NB-V review 16–19 | NP25 L + NB-R R |
 | 26 | phase-2 review | Timed T1+T2 → FB; confirm ~7.0 | iTk full mock, target 7.0 | NB-R weak-type audit | CCT-A 19–24 (2nd) + NP26 | NB COLLOCATIONS 1–2 | full mock NP26 + BC R |
 
-## Phase 3 — Refinement (w27–39 · 01→03·2027 · target 8.25) — confirm W7.5 / S7.5, LR 39+/40
+## Phase 3 — Refinement (w27–39 · 01→03·2027 · target 8.25) — confirm W7.5 / S7.5→8.0, LR 39+/40
 Kill recurring W errors → majority error-free; **FB** confirms 7.5; **iTk** mocks scored; full timed tests.
 
 | wk | headline | Writing (90′, FB) | Speaking (55′, iTk 2×) | Reading (35′) | Listening (35′) | Vocab | Sat full mock |
@@ -95,5 +95,6 @@ Full timed mocks weekly; hold W/S 7.5 + LR 9.0; zero-tolerance carelessness. **T
 - **Every cell ∈ material-inventory.md** (real downloaded archive). No Cambridge-book / Simon / Hancock / Collins refs (not downloaded).
 - **Phase 1 consumes finite NB content**: Reading 8 q-types (w2–9), Writing T1×6 + T2×4 + BONUS×4 (w2–13), 15 Speaking scripts (w1–13), 19 vocab topics (w1–13 start), dictation INTERMEDIATE→ADVANCED.
 - **Phases 2–4 apply** the test banks: NghĩaPhan 34, RoadToIELTS 9, NB folder-10 Cambridge/BC — reuse/review acceptable (student already strong R/L).
-- **FB weekly + iTk 2×/wk from w14** = the W/S 7.0→7.5 mechanism (Option 1), consistent with NB's own "nộp bài sửa".
+- **FB weekly + iTk 2×/wk from w14** = the W/S 7.0→7.5 mechanism (Option 1), consistent with NB's own "nộp bài sửa". **Plus Phase-1 diagnostic checkpoints:** writing marking at w4/w8/w13 + one italki speaking diagnostic (~w13); **w13 = first full 4-skill timed mock**.
+- **Speaking aims 8.0 (insurance);** Writing 7.0 floor acceptable if S8.0 — since L9·R9·W7.0·S8.0 = 33 → still overall 8.5. Don't lower any goal; engineer the spare half-band on Speaking (fastest mover for a strong-receptive learner + tutor).
 - **`[opt]` gap-fillers** (band-8 Writing models, grammar top-up, pronunciation course) appear only as optional accelerators, never as required daily material — the plan is runnable 100% on the downloaded archive to ~8.0, with FB/iTk carrying the last half-band.
