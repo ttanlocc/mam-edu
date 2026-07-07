@@ -49,7 +49,7 @@ function SessionScreen() {
   const stepsDone = tasks.filter((_, i) => steps[i]).length;
   const allDone   = tasks.length > 0 && stepsDone === tasks.length;
   const kc        = block.kind_color || 'mute';
-  const MV        = window.MaterialView;
+  const ML        = window.MaterialList;
 
   const toggleStep = (i) => saveEntry({ ...entry, steps: { ...steps, [i]: !steps[i] } });
   const finish = async () => {
@@ -83,10 +83,10 @@ function SessionScreen() {
           <p style={{fontSize:15, lineHeight:1.65, color:'var(--ink-2)', margin:0}}>{block.prompt}</p>
         </section>
 
-        {block.material && MV && (
+        {ML && (block.materials || block.material) && (
           <section style={{marginBottom:26}}>
             <div style={eye}>● TÀI LIỆU</div>
-            <MV m={block.material} />
+            <ML block={block} />
           </section>
         )}
 

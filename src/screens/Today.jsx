@@ -15,6 +15,8 @@ function progressKey(weekN, dow, blockId) {
 
 // Inline viewer for a block's downloaded study material (audio/pdf/image),
 // served by the API's /materials static route. src is a raw path under MATERIALS_DIR.
+// `locator` = exactly where inside the file (page range / passage / track) — so the
+// student never opens a whole file guessing. `note` = what to do with this slice.
 function MaterialView({ m }) {
   if (!m || !m.src) return null;
   const base = (window.gieoApi && window.gieoApi.base) || '';
@@ -24,10 +26,14 @@ function MaterialView({ m }) {
     color:'var(--ink)', textDecoration:'none', background:'var(--paper)', display:'inline-flex', alignItems:'center', gap:4 };
   return (
     <div style={{ margin:'8px 0 4px', padding:'8px 10px', border:'1px solid var(--hair)', borderRadius:10, background:'var(--paper)' }}>
-      <div style={{ fontFamily:'var(--font-mono)', fontSize:11, color:'var(--ink-2)', marginBottom:6,
-        whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>
+      <div style={{ fontFamily:'var(--font-mono)', fontSize:11, color:'var(--ink-2)', marginBottom:4, wordBreak:'break-word' }}>
         {glyph} {m.name || m.src}
       </div>
+      {m.locator && (
+        <div style={{ fontFamily:'var(--font-mono)', fontSize:11, color:'var(--coral)', marginBottom:6 }}>
+          → {m.locator}
+        </div>
+      )}
       {m.type === 'audio' && <audio controls preload="none" src={url} style={{ width:'100%', height:32 }} />}
       {m.type === 'pdf' && (
         <div style={{ display:'flex', gap:8 }}>
@@ -36,10 +42,22 @@ function MaterialView({ m }) {
         </div>
       )}
       {m.type === 'image' && <img src={url} alt={m.name || ''} style={{ maxWidth:'100%', borderRadius:8, border:'1px solid var(--hair)' }} />}
+      {m.note && (
+        <div style={{ fontSize:12.5, lineHeight:1.5, color:'var(--ink-2)', marginTop:6 }}>{m.note}</div>
+      )}
     </div>
   );
 }
 window.MaterialView = MaterialView;
+
+// A block may carry one `material` (object) or several `materials` (array — e.g. audio
+// + transcript, practice PDF + answer key). Render whichever is present.
+function MaterialList({ block }) {
+  const list = (block && block.materials) || (block && block.material ? [block.material] : []);
+  if (!list.length) return null;
+  return <>{list.map((m, i) => <MaterialView key={i} m={m} />)}</>;
+}
+window.MaterialList = MaterialList;
 
 function DailyPlanScreen() {
   const courseId = window.gieoApi.currentCourseId();
@@ -197,7 +215,7 @@ function DailyPlanScreen() {
 
                   <div style={{minWidth:0}}>
                     <h3>{b.title}</h3>
-                    {b.material && <MaterialView m={b.material} />}
+                    <MaterialList block={b} />
                     {carry && <div className="carry-pill">{carry}</div>}
                     {isDone && (
                       <div className="done-badge">
