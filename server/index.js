@@ -6,6 +6,9 @@ import { readFileSync, statSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
 const CONTENT_DIR = process.env.GIEO_CONTENT || join(process.cwd(), '..', 'content');
+// Downloaded study materials (audio/pdf/img/video). PERSONAL/LOCAL ONLY — copyrighted courses;
+// must be gated (per-user private) before any multi-user deploy.
+const MATERIALS_DIR = process.env.GIEO_MATERIALS || '/home/azureuser/laged-app/materials-raw';
 
 const DB_PATH = process.env.GIEO_DB || '/data/gieo.db';
 const PORT    = Number(process.env.PORT || 3000);
@@ -66,6 +69,9 @@ app.use((req, res, next) => {
   if (req.method === 'OPTIONS') return res.sendStatus(204);
   next();
 });
+
+// Static route for downloaded study materials (see MATERIALS_DIR note above).
+if (existsSync(MATERIALS_DIR)) app.use('/materials', express.static(MATERIALS_DIR));
 
 app.get('/api/health', (_req, res) => res.json({ ok: true, t: Date.now() }));
 
@@ -133,7 +139,7 @@ app.get('/api/courses/:id', (req, res) => {
 });
 
 app.get('/api/courses/:id/weeks/:n', (req, res) => {
-  const n = String(req.params.n).padStart(2, '0');
+  const n = String(req.params.n);
   const file = join(CONTENT_DIR, 'courses', req.params.id, 'weeks', `w${n}.md`);
   if (!existsSync(file)) return res.status(404).json({ error: 'week_not_found' });
   try {
@@ -142,5 +148,11 @@ app.get('/api/courses/:id/weeks/:n', (req, res) => {
     res.status(500).json({ error: 'parse_error', detail: String(err.message) });
   }
 });
+
+// POC/local only: serve the static frontend same-origin (opt-in via GIEO_FRONTEND env).
+// Same-origin avoids cross-port CORS and browser tracking-prevention storage blocks. Off by default.
+if (process.env.GIEO_FRONTEND && existsSync(process.env.GIEO_FRONTEND)) {
+  app.use(express.static(process.env.GIEO_FRONTEND));
+}
 
 app.listen(PORT, '0.0.0.0', () => console.log(`gieo-api on :${PORT} · db=${DB_PATH}`));

@@ -4,53 +4,31 @@
 
 const COURSES = [
   {
-    id: 'ielts-70-80',
+    id: 'ielts-85',
     code: 'IELTS',
-    from: '7.0', to: '8.0',
-    name: 'IELTS · Tinh chỉnh',
-    desc: 'Lộ trình 8 tháng — chuyển ceiling thành floor. Trọng tâm: feedback ex-examiner & error analysis.',
-    months: 8, per_day: '4h 45′', blocks: 5, days: 244,
+    from: '7.0', to: '8.5',
+    name: 'IELTS · Lộ trình 8.5',
+    desc: 'Lộ trình 12 tháng lên overall 8.5 (L·R 9.0 · W·S 7.5). R/L nền cao khóa cứng 9.0; W/S xây từ 0 với feedback examiner hàng tuần. Combo zero-slack — không được rớt kỹ năng nào.',
+    months: 12, per_day: '4h', blocks: 5, days: 365,
     tree: 'fruiting',
     recommended: true,
-  },
-  {
-    id: 'toeic-soon',
-    code: 'TOEIC',
-    from: '500', to: '800',
-    name: 'TOEIC · Mục tiêu nghề',
-    desc: 'Listening + Reading thực dụng cho người đi làm. Đang chuẩn bị bộ mock + giáo viên.',
-    months: 6, per_day: '2h 30′', blocks: 3, days: 180,
-    tree: 'young',
-    placeholder: true,
-    eta: 'Mở · Tháng 07 · 2026',
-  },
-  {
-    id: 'hsk-soon',
-    code: 'HSK',
-    from: 'HSK 3', to: 'HSK 5',
-    name: 'HSK · Trung cấp',
-    desc: 'Tiếng Trung HSK 3 → 5. Đang hoàn thiện lộ trình cùng đối tác Sư phạm Ngoại ngữ.',
-    months: 10, per_day: '2h', blocks: 3, days: 300,
-    tree: 'sprout',
-    placeholder: true,
-    eta: 'Mở · Tháng 09 · 2026',
   },
 ];
 
 const COURSE_DETAIL = {
-  'ielts-70-80': {
+  'ielts-85': {
     phases: [
-      { n:1, nm:'Foundations',    r:'T1–3',  done:true },
-      { n:2, nm:'Skill Building', r:'T4–6',  cur:true },
+      { n:1, nm:'Foundations',    r:'T1–3',  cur:true },
+      { n:2, nm:'Skill Building', r:'T4–6'  },
       { n:3, nm:'Refinement',     r:'T7–9'  },
       { n:4, nm:'Exam Readiness', r:'T10–12'},
     ],
     sample_day: [
-      { time:'07:00', dur:'90′', kind:'W', kindName:'WRITING',   title:'Task 2 essay · timed + self-review', seeds:35, c:'butter' },
-      { time:'09:00', dur:'60′', kind:'S', kindName:'SPEAKING',  title:'Ghi âm Part 1–3 + shadow TED',      seeds:22, c:'sky' },
-      { time:'14:00', dur:'45′', kind:'R', kindName:'READING',   title:'Cambridge passage + error log',     seeds:22, c:'coral' },
-      { time:'19:00', dur:'45′', kind:'L', kindName:'LISTENING', title:'Section 4 + dictation',              seeds:18, c:'sage' },
-      { time:'·',     dur:'20′', kind:'A', kindName:'ANKI',      title:'15 thẻ mới + review (buổi tối)',    seeds:11, c:'mocha' },
+      { time:'07:00', dur:'85′', kind:'W', kindName:'WRITING',   title:'Task 2 · outline → viết → self-review descriptor', seeds:35, c:'butter' },
+      { time:'09:00', dur:'60′', kind:'S', kindName:'SPEAKING',  title:'Part 1–3 ghi âm + shadow + ELSA',   seeds:22, c:'sky' },
+      { time:'14:00', dur:'30′', kind:'R', kindName:'READING',   title:'Cambridge passage timed + error log', seeds:18, c:'coral' },
+      { time:'19:00', dur:'40′', kind:'L', kindName:'LISTENING', title:'Section 3–4 + dictation · khóa 9.0', seeds:18, c:'sage' },
+      { time:'·',     dur:'25′', kind:'A', kindName:'ANKI',      title:'15 thẻ collocation + review',       seeds:12, c:'mocha' },
     ],
     week: [
       { d:'T2', label:'Discussion essay' },
@@ -62,14 +40,12 @@ const COURSE_DETAIL = {
       { d:'CN', label:'Nghỉ · deload', rest:true },
     ],
     features: [
-      { gly:'✎', b:'Feedback ex-examiner hàng tuần', s:'Lan H. chấm Writing mỗi thứ Năm · Mark E. chấm Speaking mỗi thứ Bảy.' },
-      { gly:'◆', b:'Mock test đầy đủ mỗi 2 tuần', s:'Cambridge 14–18 · chấm theo descriptor 9.0 · error analysis 3 cột.' },
-      { gly:'◦', b:'Anki deck topic-tagged', s:'1.200+ thẻ · production cards, không recognition · SRS tự đẩy.' },
-      { gly:'○', b:'Pitfall watchlist', s:'5 failure modes của high-reading students · cảnh báo thời gian thực.' },
+      { gly:'✎', b:'Feedback ex-examiner hàng tuần', s:'Writing chấm mỗi tuần theo descriptor 7.5 — điều kiện bắt buộc để chạm W·S 7.5.' },
+      { gly:'◆', b:'Mock đầy đủ mỗi tuần (Phase 3+)', s:'Cambridge 14–20 · chấm descriptor 9.0 · error analysis 3 cột.' },
+      { gly:'◦', b:'Anki deck collocation-first', s:'1.200+ thẻ production (không recognition) · SRS tự đẩy.' },
+      { gly:'○', b:'Pitfall watchlist zero-slack', s:'7 failure modes — gồm spelling Listening & cẩu thả Reading giết band 9.0.' },
     ],
   },
-  'toeic-soon': { placeholder:true, note:'Lộ trình TOEIC đang được xây cùng đối tác giáo viên. Mở vào Tháng 07 · 2026.' },
-  'hsk-soon':   { placeholder:true, note:'Lộ trình HSK 3 → 5 đang được hoàn thiện cùng Sư phạm Ngoại ngữ. Mở vào Tháng 09 · 2026.' },
 };
 
 function treeSvg(stage, size=56) {
@@ -83,7 +59,7 @@ function treeSvg(stage, size=56) {
 }
 
 function CourseSelectScreen() {
-  const [selectedId, setSelectedId] = React.useState('ielts-70-80');
+  const [selectedId, setSelectedId] = React.useState('ielts-85');
   const [sheetOpen, setSheetOpen] = React.useState(false);
   const [busy, setBusy] = React.useState(false);
 

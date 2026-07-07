@@ -1,8 +1,65 @@
+function progressKey(weekN, dow, blockId) {
+  return `${weekN}:${dow}:${blockId}`;
+}
+
+const SKILL_ROWS = [
+  { skill: 'writing',   kind: 'WRITING',   label: 'Writing'    },
+  { skill: 'speaking',  kind: 'SPEAKING',  label: 'Speaking'   },
+  { skill: 'reading',   kind: 'READING',   label: 'Reading'    },
+  { skill: 'listening', kind: 'LISTENING', label: 'Listening'  },
+  { skill: 'anki',      kind: 'ANKI',      label: 'Vocab/Anki' },
+];
+
 function WeekScreen() {
-  const D = window.GIEO_PLAN;
-  const days = D.week_milestones;
-  const doneCount = days.filter(d => d.done && !d.rest).length;
+  const courseId = window.gieoApi.currentCourseId();
+  const weekN    = window.gieoApi.currentWeek();
+
+  const [course, setCourse]     = React.useState(null);
+  const [week, setWeek]         = React.useState(null);
+  const [progress, setProgress] = React.useState(null);
+  const [err, setErr]           = React.useState(null);
+
+  React.useEffect(() => {
+    Promise.all([
+      window.gieoApi.getCourse(courseId),
+      window.gieoApi.getWeek(courseId, weekN),
+      window.gieoApi.getState(),
+    ]).then(([c, w, s]) => {
+      setCourse(c);
+      setWeek(w);
+      setProgress((s && s.progress && s.progress[courseId]) || {});
+    }).catch(e => setErr(String(e)));
+  }, [courseId, weekN]);
+
+  if (err) return <div style={{padding:24,color:'#a33',fontFamily:'monospace'}}>Không tải được Tuần: {err}</div>;
+  if (!course || !week || !progress) return <div style={{padding:24,color:'#888'}}>Đang tải tuần…</div>;
+
+  const days  = week.milestones || [];
+  const bands = course.bands || [];
+
+  const dayBlocks = dow => (week.days || []).find(x => x.dow === dow)?.blocks || [];
+  const dayDone   = d => !d.rest && dayBlocks(d.d).length > 0 &&
+    dayBlocks(d.d).every(b => progress[progressKey(weekN, d.d, b.id)]?.done);
+
+  const doneCount  = days.filter(d => !d.rest && dayDone(d)).length;
   const totalCount = days.filter(d => !d.rest).length;
+
+  const [moNum] = (week.month_year || '').split('·').map(s => s.trim());
+  const dateRange = days.length ? `${days[0].date}–${days[days.length - 1].date} THÁNG ${moNum}` : '';
+
+  const weekGrid = SKILL_ROWS.map(row => ({
+    ...row,
+    days: days.map(d => {
+      if (d.rest) return { rest: true };
+      const block = dayBlocks(d.d).find(b => b.kind === row.kind);
+      if (!block) return { rest: true };
+      return {
+        topic: block.title,
+        done:  !!progress[progressKey(weekN, d.d, block.id)]?.done,
+        flag:  !!d.special,
+      };
+    }),
+  }));
 
   return (
     <>
@@ -13,8 +70,8 @@ function WeekScreen() {
         <main>
           <div className="page-hero">
             <div>
-              <div className="eye acc">● TUẦN {D.phase.week} · 11–17 THÁNG 5</div>
-              <h1 className="page-title">Engage <b>feedback loop</b>.</h1>
+              <div className="eye acc">● TUẦN {weekN} · {dateRange}</div>
+              <h1 className="page-title">Engage <b>{week.headline}</b>.</h1>
             </div>
             <div style={{textAlign:'right'}}>
               <div className="eye">● HOÀN THÀNH</div>
@@ -37,7 +94,7 @@ function WeekScreen() {
             ))}
 
             {/* Skill rows */}
-            {D.week_grid.map(row => (
+            {weekGrid.map(row => (
               <React.Fragment key={row.skill}>
                 <div className="rowlbl">{row.label}</div>
                 {row.days.map((cell, di) => {
@@ -45,12 +102,9 @@ function WeekScreen() {
                   return (
                     <div key={di} className={[
                       'wcell', row.skill,
-                      cell.mock  ? 'mock'  : '',
-                      cell.done  ? 'done'  : '',
-                      cell.flag  ? 'flag'  : '',
-                      days[di].today ? '' : '',
+                      cell.done ? 'done' : '',
+                      cell.flag ? 'flag' : '',
                     ].filter(Boolean).join(' ')}>
-                      {cell.tag && <span className="tag">{cell.tag}</span>}
                       <span className="topic">{cell.topic}</span>
                     </div>
                   );
@@ -63,7 +117,7 @@ function WeekScreen() {
           <div style={{marginTop:28}}>
             <div className="eye">● MỤC TIÊU TUẦN NÀY</div>
             <div className="targets">
-              {D.bands.map(b => {
+              {bands.map(b => {
                 const pct = Math.round((b.cur / b.tgt) * 100);
                 return (
                   <div key={b.k} className={`tgt ${b.k}`}>

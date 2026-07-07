@@ -1,5 +1,5 @@
 function App() {
-  const getScreen = () => window.location.hash.replace(/^#\/?/, '') || 'today';
+  const getScreen = () => (window.location.hash.replace(/^#\/?/, '') || 'today').split('/')[0] || 'today';
   const [screen, setScreen]     = React.useState(getScreen);
   const [session, setSession]   = React.useState(undefined); // undefined = loading
   const [planReady, setPlanReady] = React.useState(!!window.GIEO_PLAN);
@@ -61,6 +61,7 @@ function App() {
     roadmap:  window.RoadmapScreen,
     writing:  window.WritingScreen,
     feedback: window.FeedbackScreen,
+    session:  window.SessionScreen,
   };
   const Screen = screens[screen] || window.DailyPlanScreen;
   return <Screen />;

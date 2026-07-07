@@ -52,11 +52,11 @@ await shot('2-course-select');
 
 // ── Stop 3: Today (set course) ────────────────────────────────
 const fullCourse = {
-  id: 'ielts-70-80', code: 'IELTS', from: '7.0', to: '8.0',
-  name: 'IELTS · Tinh chỉnh', days_to_test: 244,
+  id: 'ielts-85', code: 'IELTS', from: '7.0', to: '8.5',
+  name: 'IELTS · Lộ trình 8.5', days_to_test: 365,
   streak: 0, seeds: 0, tree_stage: 0,
   started_at: new Date().toISOString(),
-  blocks_per_day: 5, per_day: '4h 45′', months: 8,
+  blocks_per_day: 5, per_day: '4h', months: 12,
 };
 currentStop = '3-today';
 await page.evaluate((c) => localStorage.setItem('gieo_course', JSON.stringify(c)), fullCourse);

@@ -14,22 +14,41 @@
     return res.json();
   }
 
-  function currentCourseId() {
+  function currentCourse() {
     try {
-      const raw = localStorage.getItem('gieo_course');
-      if (!raw) return 'ielts-70-80';
-      const parsed = JSON.parse(raw);
-      return parsed?.id || 'ielts-70-80';
+      return JSON.parse(localStorage.getItem('gieo_course') || 'null');
     } catch {
-      return 'ielts-70-80';
+      return null;
     }
+  }
+
+  function currentCourseId() {
+    return currentCourse()?.id || 'ielts-85';
+  }
+
+  function currentWeek() {
+    return currentCourse()?.current_week || 1;
+  }
+
+  async function putJson(path, body) {
+    const res = await fetch(getBase() + path, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) throw new Error(`${path} → ${res.status}`);
+    return res.json();
   }
 
   window.gieoApi = {
     get base() { return getBase(); },
+    currentCourse,
     currentCourseId,
+    currentWeek,
     getCourses: () => getJson('/api/courses'),
     getCourse: (id) => getJson(`/api/courses/${encodeURIComponent(id)}`),
     getWeek: (id, n) => getJson(`/api/courses/${encodeURIComponent(id)}/weeks/${n}`),
+    getState: () => getJson('/api/state'),
+    putState: (body) => putJson('/api/state', body),
   };
 })();

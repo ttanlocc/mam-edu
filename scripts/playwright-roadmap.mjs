@@ -20,10 +20,10 @@ page.on('pageerror', e => consoleErrors.push(String(e)));
 await page.goto(BASE, { waitUntil: 'domcontentloaded' });
 await page.evaluate(() => {
   localStorage.setItem('gieo_demo_user', JSON.stringify({ email: 'demo@gieo.local' }));
-  // Updated to 12-month plan (from 6.5, months: 12, per_day: 4h)
+  // 12-month plan (from 7.0 → 8.5, months: 12, per_day: 4h)
   localStorage.setItem('gieo_course', JSON.stringify({
-    id: 'ielts-70-80', code: 'IELTS', from: '6.5', to: '8.0',
-    name: 'IELTS · Lộ trình 8.0', days_to_test: 365,
+    id: 'ielts-85', code: 'IELTS', from: '7.0', to: '8.5',
+    name: 'IELTS · Lộ trình 8.5', days_to_test: 365,
     streak: 0, seeds: 0, tree_stage: 0,
     started_at: new Date().toISOString(),
     blocks_per_day: 5, per_day: '4h', months: 12,
