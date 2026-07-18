@@ -1,0 +1,47 @@
+<!doctype html>
+<!-- Test harness: renders the real MaterialList (src/screens/Today.jsx) with a fixture
+     audio block, against the real API (/materials + /transcripts). Used by
+     scripts/playwright-transcript.mjs — open via the API server with GIEO_FRONTEND=repo root:
+     http://127.0.0.1:<port>/scripts/transcript-harness.html -->
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<title>Gieo · transcript harness</title>
+<style>
+:root {
+  --bg:      #E9E6DF;
+  --paper:   #F2F0EB;
+  --ink:     #22241F;
+  --ink-2:   #5A5C56;
+  --mute:    #9B9D96;
+  --hair:    rgba(34,36,31,0.08);
+  --coral:   #7C9885;
+  --sage:    #8FA89A;
+  --butter:  #D9C58E;
+  --font-display: "DM Sans", -apple-system, system-ui, sans-serif;
+  --font-body:    "DM Sans", -apple-system, system-ui, sans-serif;
+  --font-mono:    "DM Mono", "JetBrains Mono", ui-monospace, monospace;
+}
+html, body { margin:0; padding:24px; background:var(--bg); color:var(--ink); font-family:var(--font-body); font-size:13px; }
+#root { max-width: 560px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>window.GIEO_CONFIG = { API_BASE: '' };</script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+<script src="../src/lib/api.js"></script>
+<script type="text/babel" src="../src/screens/Today.jsx"></script>
+<script type="text/babel">
+const block = {
+  materials: [
+    { type: 'audio', name: 'Fixture · beep 8s', src: 'test/beep.wav',
+      locator: 'cả bài', note: 'Fixture để test transcript live.' },
+  ],
+};
+ReactDOM.createRoot(document.getElementById('root')).render(<window.MaterialList block={block} />);
+</script>
+</body>
+</html>

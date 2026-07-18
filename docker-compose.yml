@@ -6,8 +6,13 @@ services:
       GIEO_DB: /data/gieo.db
       PORT: "3000"
       GIEO_CONTENT: /app/content
+      # Uncomment (with the volumes below) to serve study materials + transcripts:
+      # GIEO_MATERIALS: /materials
+      # GIEO_TRANSCRIPTS: /transcripts
     volumes:
       - ./data:/data
       - ./content:/app/content:ro
+      # - /home/azureuser/laged-app/materials-raw:/materials:ro
+      # - /home/azureuser/laged-app/materials-transcripts:/transcripts:ro
     ports:
       - "127.0.0.1:3030:3000"
