@@ -17,73 +17,75 @@ student_defaults:
   days_to_test: 365
   current_month: 1
 
-# Hồ sơ người học — baseline THẬT, lưu kèm khóa học (cập nhật 2026-07-07).
+# Hồ sơ người học — baseline THẬT, lưu kèm khóa học (cập nhật 2026-07-18).
 # Nguồn sự thật cho target + điểm xuất phát. Roadmap.jsx chưa render block này (mới chỉ lưu).
 student_profile:
   tested_before: false          # chưa từng thi IELTS
   hours_per_day: 4
-  target: { overall: 8.5, listening: 9.0, reading: 9.0, writing: 7.5, speaking: 7.5 }
+  target: { overall: 8.5, listening: 9.0, reading: 9.0, writing: 7.0, speaking: 8.0 }
   baseline:
-    reading:   { range: "7.5–9.0", note: "Cambridge test — đã mạnh; chỉ cần khóa cứng 9.0" }
-    listening: { range: "7.0–9.0", note: "dao động, sàn 7.0 — dictation kéo lên 9.0 ổn định" }
-    writing:   { range: "0",       note: "chưa từng học/viết — xây từ 0" }
-    speaking:  { range: "0",       note: "chưa từng học/nói — xây từ 0" }
-  note: "Nền tiếp nhận (R/L) rất mạnh nhưng chưa từng sản sinh (W/S). Điểm nghẽn là chất lượng + độ đều của feedback W/S, không phải tổng số giờ. Σ4 kỹ năng phải ≥ 33 để ra 8.5; L9·R9·W7.5·S7.5 = đúng 33 (zero-slack)."
-  strategy: "Nhắm S8.0 làm bảo hiểm cho overall 8.5 (nếu W kẹt 7.0 thì L9·R9·W7.0·S8.0 = 33 → vẫn 8.5). Chấm bài + italki chẩn đoán ngay Phase 1 (w4/w8/w13), không đợi Phase 2. Full mock 4 kỹ năng lần đầu ở w13."
+    reading:   { range: "7.5–9.0", note: "Cambridge test — đã mạnh; 6 tháng đầu cày lên khóa cứng 9.0" }
+    listening: { range: "7.0–9.0", note: "dao động, sàn 7.0 — dictation mỗi ngày 6 tháng đầu kéo lên 9.0 ổn định" }
+    writing:   { range: "0",       note: "chưa từng học/viết — 6 tháng đầu HOÀN TOÀN KHÔNG HỌC; tháng 7–12 xây từ 0 → 7.0" }
+    speaking:  { range: "0",       note: "chưa từng học/nói — 6 tháng đầu xây 0 → 7.0; 6 tháng cuối đẩy 7.0 → 8.0" }
+  note: "Nền tiếp nhận (R/L) rất mạnh nhưng chưa từng sản sinh (W/S). Chiến lược TUẦN TỰ thay vì song song: 6 tháng đầu dồn toàn lực cày L/R → 9.0 + Speaking → 7.0 (KHÔNG học Writing); 6 tháng cuối dồn Writing 0 → 7.0 + Speaking → 8.0, L/R chỉ duy trì. Σ4 kỹ năng phải ≥ 33 để ra 8.5; L9·R9·W7.0·S8.0 = đúng 33 (zero-slack)."
+  strategy: "Đường lên 8.5 đi qua W7.0 + S8.0 (không phải W7.5 + S7.5): Speaking là kỹ năng duy nhất được luyện liên tục cả 12 tháng (dễ kéo nhất với nền nghe 9.0 + tutor) nên gánh 8.0; Writing chỉ cần 7.0 trong 6 tháng tập trung với feedback dày. L/R phải chốt 9.0 NGAY tại gate w26 để nửa cuối chỉ duy trì 30–35′/ngày. italki: chẩn đoán w4, 1 buổi/tuần từ w5, 2 buổi/tuần từ Phase 2. Writing mở màn w27; gửi chấm bài đầu w30, chấm HẰNG TUẦN từ w34. Gates bắt buộc: w13 (L+R+S mock) · w26 (L/R 39–40/40 + S 7.0) · w39 (W ~6.5 + S 7.5 + full mock đầu) · w47 (W 7.0 + S 8.0)."
 
 # Phân bổ phút/ngày theo phase. Tổng = 240 phút = 4h.
-# W/S (xây từ 0 → 7.5) chiếm phần lớn thời gian; LR là "bảo trì độ chính xác" để khóa cứng 9.0.
+# 6 tháng đầu Writing = 0 — thời gian dồn cho L/R (cày 9.0) + S (xây 0 → 7.0).
+# 6 tháng cuối Writing chiếm khối lớn nhất (0 → 7.0); L/R rút về duy trì.
 schedule:
-  - { phase: 1, writing: 85, speaking: 60, reading: 30, listening: 40, vocab: 25 }
-  - { phase: 2, writing: 90, speaking: 60, reading: 30, listening: 35, vocab: 25 }
-  - { phase: 3, writing: 90, speaking: 55, reading: 35, listening: 35, vocab: 25 }
-  - { phase: 4, writing: 80, speaking: 55, reading: 40, listening: 40, vocab: 25 }
+  - { phase: 1, writing: 0,   speaking: 70, reading: 70, listening: 75, vocab: 25 }
+  - { phase: 2, writing: 0,   speaking: 75, reading: 70, listening: 70, vocab: 25 }
+  - { phase: 3, writing: 100, speaking: 60, reading: 30, listening: 30, vocab: 20 }
+  - { phase: 4, writing: 95,  speaking: 60, reading: 35, listening: 35, vocab: 15 }
 
 phases:
   - n: 1
-    name: Foundations
+    name: "LR Sprint"
     range: "T1–3"
     span: "07·2026 → 09·2026"
-    target: "7.5"
+    target: "LR 8.5"
     months: "1–3"
     current: true
-    current_ach: "Xây nền W/S từ 0 · dựng kỷ luật chính xác cho LR"
+    current_ach: "Cày L/R làm chủ kỹ thuật · dựng nền Speaking từ 0 · KHÔNG Writing"
     achievements:
-      - "Phát âm nền (IPA + trọng âm) qua ELSA + shadow NguyễnHuyền·BBC"
-      - "Grammar nền: viết câu phức CHÍNH XÁC (phân tích model + tự sửa)"
-      - "Task 1 overview + Task 2 4-đoạn: viết được bài hoàn chỉnh untimed"
-      - "Speaking Part 1–3: nói 2 phút không khựng dài"
-      - "Chấm bài chẩn đoán sớm w4·w8·w13 + 1 buổi italki chẩn đoán (KHÔNG đợi Phase 2)"
-      - "w13: full mock 4 kỹ năng timed liền mạch · làm quen áp lực thi"
-      - "LR: dựng Error Log + dictation 3x/tuần · giữ 8.0+"
-      - "Anki 15 từ/ngày · collocation-first"
+      - "Reading 70′/ngày: làm chủ 8 dạng câu hỏi Ngọc Bách (w1–7) → vào full test giải thích (w8–13)"
+      - "Listening 75′/ngày: Chép Chính Tả INTERMEDIATE trọn bộ → ADVANCED · dictation mỗi ngày + BBC"
+      - "Speaking: phát âm nền (ELSA + shadow) · 15 script Part 2 Ngọc Bách · nói 2 phút không khựng dài"
+      - "italki chẩn đoán w4 · 1 buổi/tuần từ w5 (S phải chạm 7.0 ở tháng 6 — không đợi)"
+      - "Anki 15 collocation/ngày · 13/19 chủ đề Ngọc Bách"
+      - "Sat: mock L (NghĩaPhan 1–13) + R timed · w13 = mock L+R+S chốt phase (KHÔNG có W)"
+      - "HOÀN TOÀN KHÔNG HỌC WRITING — 4h/ngày dồn hết cho L·R·S·Vocab"
 
   - n: 2
-    name: "Skill Building"
+    name: "Khóa 9.0 · S lên 7"
     range: "T4–6"
     span: "10·2026 → 12·2026"
-    target: "8.0"
+    target: "LR 9 · S 7"
     months: "4–6"
     achievements:
-      - "Examiner feedback Writing MỖI TUẦN (mắt xích cho 7.5)"
-      - "iTalki 2 buổi/tuần · Speaking chạm 7.0"
-      - "Task 2: cohesion linh hoạt + lexical range · body phát triển sâu"
-      - "Topic bank 15 chủ đề (ý + collocation + ví dụ)"
-      - "L kéo lên ổn định 8.5+ · quen đủ accent (UK/US/AUS/CAN)"
-      - "R khóa 9.0 các dạng khó (TFNG, Matching, Y/N/NG)"
+      - "L & R vào chế độ full-test timed: 39–40/40 đều đặn — khóa cứng 9.0 TRƯỚC khi rẽ sang Writing"
+      - "italki tăng 2 buổi/tuần · topic bank 19 chủ đề · Speaking chạm 7.0"
+      - "Chép Chính Tả ADVANCED trọn bộ + vòng 2 bài khó · đủ accent UK/US/AUS"
+      - "NghĩaPhan 14–26 full timed + kho BC 9 đề Reading + Cambridge re-timed"
+      - "w26 = GATE nửa năm: L/R 39–40/40 + S 7.0 (italki chấm) — điều kiện mở Writing ở Phase 3"
+      - "Vẫn KHÔNG Writing — dồn lực chốt L/R/S xong trước đã"
 
   - n: 3
-    name: Refinement
+    name: "Writing Sprint"
     range: "T7–9"
     span: "01·2027 → 03·2027"
-    target: "8.25"
+    target: "W 6.5 · S 7.5"
     months: "7–9"
     achievements:
-      - "Diệt recurring errors W: đạt 'majority error-free' (ngưỡng GRA 7.5)"
-      - "Writing 7.5 xác nhận qua examiner · đủ cả 4 tiêu chí"
-      - "Speaking chạm 7.5, nhắm 8.0 (bảo hiểm) · fluency + pronunciation ổn định"
-      - "L/R mock 39+/40 đều đặn (khóa cứng 9.0)"
-      - "Full mock timed 1x/tuần · quyết định Go/No-go"
+      - "Writing BẮT ĐẦU TỪ 0 — khối lớn nhất 100′/ngày: tiêu thụ trọn khóa Ngọc Bách Writing"
+      - "w27–30 Task 1 (6 dạng biểu đồ) → GỬI CHẤM bài đầu tiên w30"
+      - "w31–34 Task 2 (4 dạng) → chấm bài HẰNG TUẦN từ w34"
+      - "w35–39 BONUS nâng cao + diệt lỗi lặp · W chạm ~6.5 cuối phase"
+      - "Speaking đẩy 7.0 → 7.5: iTalki 2 buổi/tuần · lexical range + pronunciation features"
+      - "L/R rút về duy trì 30′/ngày: passage/section timed + Error Log · không rớt 9.0"
+      - "w39: FULL MOCK 4 kỹ năng ĐẦU TIÊN (L→R→W→S) + gate W ~6.5 · S 7.5"
 
   - n: 4
     name: "Exam Readiness"
@@ -92,65 +94,67 @@ phases:
     target: "8.5"
     months: "10–12"
     achievements:
-      - "W giữ 7.5 (sàn 7.0) · Speaking giữ 7.5–8.0 · không rớt fluency khi áp lực"
-      - "L & R zero-tolerance lỗi cẩu thả (giữ 9.0)"
-      - "Full mock 1x/tuần timed · peak rồi deload"
-      - "Ngày thi xác nhận · chốt điều kiện đỉnh"
+      - "Writing chốt 7.0: chấm hằng tuần · GRA 'frequent error-free' · gate w47 = 2 bài 7.0 liên tiếp"
+      - "Speaking đẩy 7.5 → 8.0: iTk full mock chấm điểm · fluency dưới áp lực · gate w47"
+      - "L & R zero-tolerance lỗi cẩu thả (giữ 9.0) · full mock hằng tuần"
+      - "Full mock 4 kỹ năng 1×/tuần (NghĩaPhan re-timed + Road to IELTS + BC bank)"
+      - "w48 peak → w49–51 taper + dress rehearsal · TEST ~28/06"
 
 bands:
-  - { k: R, name: Reading,   cur: 8.0, tgt: 9.0, color: coral,  status: "Ổn định 7.5–9.0 → khóa cứng 39–40/40" }
-  - { k: L, name: Listening, cur: 7.5, tgt: 9.0, color: sage,   status: "Dao động 7.0–9.0 → dictation + đủ accent" }
-  - { k: W, name: Writing,   cur: 0,   tgt: 7.5, color: butter, status: "Xây từ 0 · mục tiêu 7.5; sàn 7.0 chấp nhận NẾU S đạt 8.0" }
-  - { k: S, name: Speaking,  cur: 0,   tgt: 7.5, color: sky,    status: "Xây từ 0 · mục tiêu 7.5 · LUYỆN nhắm 8.0 (bảo hiểm total 8.5)" }
+  - { k: R, name: Reading,   cur: 8.0, tgt: 9.0, color: coral,  status: "Cày 6 tháng đầu 70′/ngày → khóa 39–40/40 tại gate w26 · sau đó duy trì" }
+  - { k: L, name: Listening, cur: 7.5, tgt: 9.0, color: sage,   status: "Dictation mỗi ngày 6 tháng đầu → 9.0 ổn định tại w26 · sau đó duy trì" }
+  - { k: W, name: Writing,   cur: 0,   tgt: 7.0, color: butter, status: "KHÔNG học 6 tháng đầu · T7–12 xây từ 0 với khối 100′/ngày + chấm bài dày → 7.0" }
+  - { k: S, name: Speaking,  cur: 0,   tgt: 8.0, color: sky,    status: "Xây từ 0 → 7.0 tại tháng 6 → đẩy 8.0 ở T7–12 · kỹ năng luyện liên tục 12 tháng" }
 
 pitfalls:
-  - { code: P1, name: "Passive-active gap",      note: "biết từ khi đọc nhưng sai collocation lúc viết/nói — 7.5 LR cần DÙNG đúng, không chỉ nhận diện", seen: 0, hot: true }
-  - { code: P2, name: "Memorised templates",     note: "'In contemporary society...' bị phạt từ 2024 — examiner trừ TR + CC", seen: 0, hot: true }
-  - { code: P3, name: "Complexity vs accuracy",  note: "7.5 GRA cần 'majority error-free' — câu phức nhiều lỗi hại hơn câu đơn đúng", seen: 0, hot: true }
-  - { code: P4, name: "No Task 2 outline",       note: "viết không outline = lạc đề, mất TR + CC", seen: 0, hot: true }
-  - { code: P5, name: "Speaking over-monitor",   note: "vừa nói vừa soi grammar = mất fluency; lỗi nhỏ chấp nhận ở mức 7.5", seen: 0, hot: false }
+  - { code: P1, name: "Passive-active gap",      note: "biết từ khi đọc nhưng sai collocation lúc nói/viết — S8.0 và W7.0 cần DÙNG đúng, không chỉ nhận diện", seen: 0, hot: true }
+  - { code: P2, name: "Memorised templates",     note: "'In contemporary society...' bị phạt từ 2024 — examiner trừ TR + CC (áp dụng khi W mở ở T7)", seen: 0, hot: false }
+  - { code: P3, name: "Complexity vs accuracy",  note: "GRA 7.0 cần 'frequent error-free' — câu phức nhiều lỗi hại hơn câu đơn đúng", seen: 0, hot: false }
+  - { code: P4, name: "No Task 2 outline",       note: "viết không outline = lạc đề, mất TR + CC — kỷ luật bắt buộc từ w31", seen: 0, hot: false }
+  - { code: P5, name: "Speaking over-monitor",   note: "vừa nói vừa soi grammar = mất fluency; S gánh 8.0 nên fluency là tiêu chí sống còn", seen: 0, hot: true }
   - { code: P6, name: "Listening spelling/số",   note: "sai chính tả hoặc format số/ngày = câu SAI dù nghe đúng → giết band 9.0", seen: 0, hot: true }
   - { code: P7, name: "Reading careless-timing", note: "2–3 câu cẩu thả cuối giờ = 8.5 thay vì 9.0 — zero slack không tha", seen: 0, hot: true }
+  - { code: P8, name: "Writing cram-risk",       note: "W dồn hết vào 6 tháng cuối — trễ 1 tuần là mất buffer; gate w30/w34/w39/w47 KHÔNG được dời, không tự học chay thiếu chấm bài", seen: 0, hot: true }
 
 materials:
   required:
-    - { title: "Khóa IELTS Ngọc Bách — Package 2020 (đã tải)", use: "BACKBONE · Reading 8 dạng + Writing T1+T2+BONUS + Vocab 19 chủ đề + 15 Speaking script", priority: 3 }
-    - { title: "Bộ Chép Chính Tả Bứt Phá Listening (đã tải)", use: "Listening · dictation 4 tier (Intermediate→Advanced) — khóa 9.0", priority: 3 }
-    - { title: "Nguyễn Huyền FULL + BBC 6 Minute (đã tải)", use: "Listening · 72 track + 8 ep BBC có transcript (self-grade)", priority: 3 }
-    - { title: "Sách IELTS Nghĩa Phan (đã tải)", use: "Listening · 34 full test audio — timed + dictation", priority: 2 }
-    - { title: "Road to IELTS — British Council (đã tải)", use: "Listening · 9 full-test audio", priority: 2 }
+    - { title: "Khóa IELTS Ngọc Bách — Package 2020 (đã tải)", use: "BACKBONE · Reading 8 dạng + full test (T1–6) · Writing T1+T2+BONUS (T7–12) · Vocab 19 chủ đề + 15 Speaking script", priority: 3 }
+    - { title: "Bộ Chép Chính Tả Bứt Phá Listening (đã tải)", use: "Listening · dictation 2 tier (Intermediate→Advanced) — vũ khí chính cày 9.0 trong 6 tháng đầu", priority: 3 }
+    - { title: "Nguyễn Huyền FULL + BBC 6 Minute (đã tải)", use: "Listening · 72 track + 8 ep BBC có transcript (self-grade) — volume 6 tháng đầu", priority: 3 }
+    - { title: "Sách IELTS Nghĩa Phan (đã tải)", use: "Listening · 34 full test audio — mock T7 hằng tuần + timed mileage", priority: 2 }
+    - { title: "Road to IELTS — British Council (đã tải)", use: "Listening · 9 full-test audio — mock Phase 3–4", priority: 2 }
     - { title: "Tú Phạm — Từ vựng IELTS 7.0+ (đã tải · 1/38 set)", use: "Vocabulary band 7+ · bổ sung mỏng", priority: 1 }
   apps:
-    - { name: "Writing marking (writing9 / gia sư)", cost: "~$5–30/bài", use: "Chấm Task 2 hàng tuần — đẩy W 7.0→7.5 (đúng 'nộp bài sửa' của Ngọc Bách)" }
-    - { name: "italki — gia sư Speaking", cost: "Theo buổi", use: "2 buổi/tuần từ Phase 2 · Part 1/3 + phát âm — đẩy S 7.0→7.5" }
-    - { name: "Anki", cost: "Miễn phí", use: "Flashcard collocation từ Ngọc Bách Vocab · 15 từ/ngày" }
-    - { name: "ELSA Speak", cost: "~$60/năm", use: "Pronunciation drill (thay khóa phát âm kho chưa có)" }
+    - { name: "italki — gia sư Speaking", cost: "Theo buổi", use: "Chẩn đoán w4 · 1 buổi/tuần từ w5 · 2 buổi/tuần từ Phase 2 — trục chính S 0→7.0→8.0" }
+    - { name: "Writing marking (writing9 / gia sư)", cost: "~$5–30/bài", use: "Từ Phase 3: bài đầu w30 (Task 1) · HẰNG TUẦN từ w34 — mắt xích W 0→7.0, không tự học chay" }
+    - { name: "ELSA Speak", cost: "~$60/năm", use: "Pronunciation drill mỗi ngày từ w1 — nền phát âm cho S 8.0" }
+    - { name: "Anki", cost: "Miễn phí", use: "Flashcard collocation từ Ngọc Bách Vocab · 15 từ/ngày · production card" }
   free:
-    - { name: "⚠ Band-8 Writing models [tùy chọn]", note: "GAP: kho top ~7.0 — nguồn ngoài nếu muốn đẩy nhanh Writing; feedback loop bù" }
-    - { name: "⚠ Grammar nâng cao [tùy chọn]", note: "GAP: kho = 0 grammar — phân tích model + chấm bài bù" }
-    - { name: "⚠ Speaking Part 1&3 / phát âm [tùy chọn]", note: "GAP: kho chỉ có 15 script Part 2 — italki/ELSA bù" }
+    - { name: "⚠ Band-8 Writing models [tùy chọn]", note: "GAP: kho top ~7.0 — đủ cho target W 7.0; model ngoài chỉ nếu muốn dư an toàn" }
+    - { name: "⚠ Grammar nâng cao [tùy chọn]", note: "GAP: kho = 0 grammar — phân tích model + chấm bài bù; chỉ bổ sung nếu 1 cấu trúc rớt hoài" }
+    - { name: "⚠ Speaking Part 1&3 / phát âm [tùy chọn]", note: "GAP: kho chỉ có 15 script Part 2 — italki/ELSA gánh; S 8.0 dựa vào tutor loop 12 tháng" }
 
 youtube:
-  - { channel: "BBC 6 Minute English (đã tải · có transcript)", best_for: "Listening Section 3–4 · self-grade" }
-  - { channel: "Ngọc Bách — video bài giảng .TS (đã tải)", best_for: "Reading/Writing bài giảng theo từng dạng" }
+  - { channel: "BBC 6 Minute English (đã tải · có transcript)", best_for: "Listening Section 3–4 · self-grade · shadow connected speech" }
+  - { channel: "Ngọc Bách — video bài giảng .TS (đã tải)", best_for: "Reading theo dạng (T1–6) · Writing theo dạng (T7–12)" }
 
 cambridge_schedule:
-  - { month: 1,  books: "Ngọc Bách Reading dạng 1–4 + Writing Task 1 + CCT Intermediate · diagnostic W/S" }
-  - { month: 2,  books: "Ngọc Bách Reading dạng 5–8 + Writing Task 1 còn lại + CCT Advanced" }
-  - { month: 3,  books: "Ngọc Bách Writing Task 2 + BONUS + Reading folder-10 (Cambridge giải) · self-assess" }
-  - { month: 4,  books: "Feedback loop Writing bắt đầu · Nghĩa Phan 14–17 timed · CCT Advanced" }
-  - { month: 5,  books: "Nghĩa Phan 18–22 + BC bank Reading · italki Speaking 2x/tuần" }
-  - { month: 6,  books: "Nghĩa Phan 23–26 + Ngọc Bách Cambridge re-timed · xác nhận ~7.0" }
-  - { month: 7,  books: "Nghĩa Phan 27–30 full timed · W/S confirm 7.5 qua FB/iTk" }
-  - { month: 8,  books: "Nghĩa Phan 31–34 + Road to IELTS 1–2 · error zero" }
-  - { month: 9,  books: "Road to IELTS 3–5 full mock · go/no-go" }
-  - { month: 10, books: "Nghĩa Phan re-mock + Road to IELTS 7 · full timed all-skills" }
-  - { month: 11, books: "BC bank A–C full mock + Nghĩa Phan 4–8 · peak" }
-  - { month: 12, books: "Road to IELTS 8–9 dress rehearsal · deload · TEST ~28/06" }
+  - { month: 1,  books: "NB Reading dạng 1–5 (GAP FILL→HEADINGS) + CCT-I 1–15 + script #1–4 · italki chẩn đoán w4" }
+  - { month: 2,  books: "NB Reading dạng 6–8 + TONG KET → vào NB-R10 full test · CCT-I xong → CCT-A + BBC · italki 1×/tuần" }
+  - { month: 3,  books: "NB-R10 Cambridge/BC giải trọn + CCT-A 7–16 + script #9–15 · w13 MOCK L+R+S chốt phase" }
+  - { month: 4,  books: "NghĩaPhan 14–17 full timed + BC bank Reading + CCT-A 17–24 · italki lên 2 buổi/tuần" }
+  - { month: 5,  books: "NghĩaPhan 18–22 + BC bank tiếp + CCT-A vòng 2 bài khó · topic bank Speaking 19 chủ đề" }
+  - { month: 6,  books: "NghĩaPhan 23–26 + Cambridge/BC re-timed 39–40/40 · w26 GATE: L/R 9.0 + S 7.0 (italki chấm)" }
+  - { month: 7,  books: "MỞ WRITING: NB Task 1 trọn 6 dạng (100′/ngày) · GỬI CHẤM bài đầu w30 · NP 27–30 duy trì L/R" }
+  - { month: 8,  books: "NB Task 2 trọn 4 dạng · chấm bài HẰNG TUẦN từ w34 · NP 31–34 + BC bank duy trì" }
+  - { month: 9,  books: "NB BONUS + diệt lỗi lặp W · RtI 1–5 · w39 FULL MOCK 4 kỹ năng đầu tiên · gate W 6.5 S 7.5" }
+  - { month: 10, books: "W chấm tuần (đẩy 7.0) + S mock hướng 8.0 · NP 1–3 re-timed fresh + RtI 6 full mock" }
+  - { month: 11, books: "BC bank A–C full mock + NP 4–7 re-mock · w47 GATE: W 7.0 (2 bài liên tiếp) + S 8.0" }
+  - { month: 12, books: "w48 peak (NP8) → RtI 7–9 taper + dress rehearsal · deload · TEST ~28/06" }
 ---
 
-Lộ trình 12 tháng lên **overall 8.5** (L 9.0 · R 9.0 · W 7.5 · S 7.5) — 4h/ngày. Ba điểm tựa:
+Lộ trình 12 tháng lên **overall 8.5** (L 9.0 · R 9.0 · W 7.0 · S 8.0) — 4h/ngày, chiến lược **TUẦN TỰ** thay vì song song. Ba điểm tựa:
 
-1. **Writing & Speaking xây từ 0 phải chạm 7.5 ở *cả 4* tiêu chí** — ràng buộc khó nhất. Từ số 0 KHÔNG thể tự chấm mà lên nổi 7.5 — cần mắt chuyên gia SỚM: có **chấm bài chẩn đoán ngay Phase 1** (w4 sau Task 1, w8 sau Task 2 đầu, w13 chốt phase) + 1 buổi italki chẩn đoán, rồi Phase 2 mới **chấm Writing mỗi tuần + italki 2 buổi/tuần**. Đây là lý do Writing giữ 85–90 phút/ngày gần như suốt lộ trình.
-2. **LR không có đệm (zero-slack)** — 8.5 cần Σ4 kỹ năng ≥ 33, mà L9+R9+W7.5+S7.5 = đúng 33, không dư. Rớt một mắt xích (L xuống 8.5, hoặc W xuống 7.0) là overall về 8.0. **Bảo hiểm:** nhắm **Speaking 8.0** — kỹ năng dễ kéo nhất với nền nghe mạnh + tutor; nếu Writing kẹt ở 7.0 thì L9·R9·W7.0·S8.0 = 33 → vẫn 8.5. Không hạ mục tiêu nào, chỉ dời nửa band "dư" sang Speaking. LR vẫn luyện chính xác mỗi ngày để khóa cứng 9.0 (39–40/40).
-3. **Tái dùng 100% kho tài liệu đã tải** (Ngọc Bách backbone + Chép Chính Tả + Nghĩa Phan + Nguyễn Huyền/BBC + Road to IELTS) — không phải tìm tài liệu ngoài. Kho đủ đưa L→9.0, R→9.0 và xây W/S tới ~7.0; chặng 7.0→7.5 của W/S dùng **vòng chấm bài** (đúng phương pháp "nộp bài sửa" của Ngọc Bách). Grammar & model band-8 là gap của kho — chỉ bổ sung nếu muốn đẩy nhanh.
+1. **6 tháng đầu (w1–26): cày L·R lên 9.0 + Speaking 0→7.0 — HOÀN TOÀN KHÔNG học Writing.** Toàn bộ 4h/ngày dồn cho 3 kỹ năng + vocab: L/R từ nền 7.5–8.0 phải KHÓA CỨNG 39–40/40 tại gate w26 (dictation Chép Chính Tả mỗi ngày + 8 dạng câu hỏi Ngọc Bách + full test bank); Speaking xây từ 0 bằng ELSA + 15 script Ngọc Bách + italki (chẩn đoán w4, 1 buổi/tuần từ w5, 2 buổi/tuần từ tháng 4) để chạm 7.0 ở tháng 6. Bỏ Writing giai đoạn này là chủ đích: học song song W/S từ con số 0 sẽ phân mảnh 4h/ngày; dồn tiếp nhận trước còn tạo sẵn kho từ vựng + cấu trúc câu cho Writing dùng sau.
+2. **6 tháng cuối (w27–52): Writing 0→7.0 (khối lớn nhất 95–100′/ngày) + Speaking 7.0→8.0; L/R rút về duy trì.** Writing nén đúng trình tự Ngọc Bách: Task 1 sáu dạng (w27–30) → Task 2 bốn dạng (w31–34) → BONUS (w35+), với chấm bài từ w30 và HẰNG TUẦN từ w34 — từ số 0 không thể tự chấm mà lên nổi 7.0, vòng feedback là mắt xích sống còn (đúng phương pháp "nộp bài sửa" của Ngọc Bách). Speaking tiếp đà không đứt quãng: mock italki chấm điểm tiến 7.5 (gate w39) rồi 8.0 (gate w47). L/R duy trì 30–35′/ngày độ chính xác + full mock thứ Bảy — không được rớt khỏi 9.0.
+3. **Phép tính band zero-slack: L9 + R9 + W7.0 + S8.0 = 33 → overall 8.5.** W chỉ cần 7.0 (khả thi trong 6 tháng tập trung + feedback dày, kho Ngọc Bách top ~7.0 là vừa khớp); S gánh 8.0 vì là kỹ năng duy nhất luyện liên tục 12 tháng trên nền nghe 9.0 + tutor. Rủi ro lớn nhất và cách chặn: (a) L/R không kịp 9.0 tại w26 → Phase 3 phải chia lại giờ, vì vậy gate w26 là bắt buộc; (b) Writing trễ nhịp — mất 1 tuần là mất buffer, nên các gate w30/w34/w39/w47 không được dời. Kho tài liệu đã tải dùng 100% (Ngọc Bách backbone + Chép Chính Tả + Nghĩa Phan + Nguyễn Huyền/BBC + Road to IELTS); chấm bài + italki là 2 dịch vụ ngoài duy nhất.

@@ -58,34 +58,34 @@ const checks = [
   ['Status: "Phase 1"',                   text.includes('Phase 1')],
 
   // ── Phase rows ────────────────────────────────────────────────────────────
-  ['Phase 1 "Foundations" shown',          text.includes('Foundations')],
-  ['Phase 2 "Skill Building" shown',       text.includes('Skill Building')],
-  ['Phase 3 "Refinement" shown',           text.includes('Refinement')],
+  ['Phase 1 "LR Sprint" shown',            text.includes('LR Sprint')],
+  ['Phase 2 "Khóa 9.0 · S lên 7" shown',   text.includes('Khóa 9.0')],
+  ['Phase 3 "Writing Sprint" shown',       text.includes('Writing Sprint')],
   ['Phase 4 "Exam Readiness" shown',       text.includes('Exam Readiness')],
   ['BẠN ĐANG Ở ĐÂY on Phase 1',           text.includes('BẠN ĐANG Ở ĐÂY')],
-  ['Phase 1 span "06·2026"',               text.includes('06·2026')],
+  ['Phase 1 span "07·2026"',               text.includes('07·2026')],
 
   // ── Band targets ──────────────────────────────────────────────────────────
   ['READING band row',                     text.includes('READING')],
-  ['WRITING "–" (untested)',               text.includes('–')],
-  ['SPEAKING band shows target 7.5',       text.includes('7.5')],
+  ['WRITING "–" (chưa học 6 tháng đầu)',   text.includes('–')],
+  ['SPEAKING band shows target 8.0',       text.includes('8.0')],
 
   // ── Schedule grid ─────────────────────────────────────────────────────────
   ['Schedule section header',             text.includes('PHÂN BỔ THỜI GIAN')],
-  ['Writing 90′ in Phase 1',              text.includes("90′")],
-  ['Vocab 30′ in Phase 1',               text.includes("30′")],
+  ['Writing 0′ in Phase 1 (sequential)',  text.includes("0′")],
+  ['Writing 100′ in Phase 3',             text.includes("100′")],
 
   // ── Materials ─────────────────────────────────────────────────────────────
   ['Sách bắt buộc section',               text.includes('SÁCH BẮT BUỘC')],
-  ['Cambridge IELTS 14–20 listed',         text.includes('Cambridge IELTS')],
+  ['Ngọc Bách backbone listed',            text.includes('Ngọc Bách')],
   ['Ứng dụng section',                     text.includes('ỨNG DỤNG')],
   ['Anki listed',                          text.includes('Anki')],
+  ['italki listed',                        text.includes('italki')],
   ['Nguồn miễn phí section',              text.includes('NGUỒN MIỄN PHÍ')],
-  ['ielts-simon.com listed',               text.includes('ielts-simon.com')],
 
   // ── YouTube ───────────────────────────────────────────────────────────────
   ['YouTube section',                      text.includes('YOUTUBE')],
-  ['IELTS Simon channel',                  text.includes('IELTS Simon')],
+  ['BBC 6 Minute listed',                  text.includes('BBC 6 Minute')],
 
   // ── No errors ────────────────────────────────────────────────────────────
   ['No console errors',                    consoleErrors.length === 0],

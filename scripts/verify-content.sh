@@ -14,7 +14,8 @@ course=$(curl -fsS "$BASE/api/courses/ielts-85")
 echo "$course" | grep -q '"phases"' || fail "course missing phases"
 echo "$course" | grep -q '"bands"' || fail "course missing bands"
 echo "$course" | grep -q '"pitfalls"' || fail "course missing pitfalls"
-echo "$course" | grep -q '"Skill Building"' || fail "course missing phase 2 name"
+echo "$course" | grep -q '"LR Sprint"' || fail "course missing phase 1 name"
+echo "$course" | grep -q '"Writing Sprint"' || fail "course missing phase 3 name"
 pass "GET /api/courses/ielts-85 → phases/bands/pitfalls present"
 
 week=$(curl -fsS "$BASE/api/courses/ielts-85/weeks/1")
