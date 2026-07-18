@@ -37,12 +37,15 @@ Chạy từ repo (trên VM, nơi có `materials-raw`):
 
 ```bash
 node scripts/transcribe-materials.mjs --dry-run     # xem sẽ làm gì, file nào thiếu
-node scripts/transcribe-materials.mjs               # chạy thật · model small · tự nhận ngôn ngữ
+node scripts/transcribe-materials.mjs --week 1      # chỉ 7 bài nghe tuần 1 — học được ngay
+node scripts/transcribe-materials.mjs               # toàn bộ · model small · tự nhận ngôn ngữ
 ```
 
 Tuỳ chọn hay dùng:
 
 ```bash
+# theo tuần đang học (VTT sinh xong là app phát được ngay, không cần restart API)
+node scripts/transcribe-materials.mjs --week 2
 # chỉ làm bộ đề Nghĩa Phan
 node scripts/transcribe-materials.mjs --filter "NGHĨA PHAN"
 # ép tiếng Anh (bài thuần EN nhận nhanh + ổn định hơn; các bài vocab Ngọc Bách

@@ -75,7 +75,9 @@ app.use((req, res, next) => {
 
 // Static route for downloaded study materials (see MATERIALS_DIR note above).
 if (existsSync(MATERIALS_DIR)) app.use('/materials', express.static(MATERIALS_DIR));
-if (existsSync(TRANSCRIPTS_DIR)) app.use('/transcripts', express.static(TRANSCRIPTS_DIR));
+// Mounted unconditionally: transcripts are generated after boot (whisper runs long) —
+// serve-static resolves per-request, so new VTTs appear without a server restart.
+app.use('/transcripts', express.static(TRANSCRIPTS_DIR));
 
 app.get('/api/health', (_req, res) => res.json({ ok: true, t: Date.now() }));
 

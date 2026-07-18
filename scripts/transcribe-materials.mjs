@@ -3,11 +3,15 @@
 // Run this WHERE THE MATERIALS LIVE (the laged-app VM), not in the app container.
 //
 //   node scripts/transcribe-materials.mjs [--dry-run] [--force] [--filter <substr>]
+//                                         [--week <N>] [--course <id>]
 //                                         [--model small] [--language en]
 //
 //   --dry-run          list what would be transcribed (and what's missing/done), do nothing
 //   --force            re-transcribe even if the .vtt already exists
 //   --filter <substr>  only process material srcs containing <substr> (e.g. "NGHĨA PHAN")
+//   --week <N>         only audio referenced by week N (e.g. --week 1 → start studying now,
+//                      transcribe the rest later)
+//   --course <id>      only audio referenced by this course (default: all courses)
 //   --model <name>     whisper model (default: small — good CPU speed/quality balance)
 //   --language <code>  force a language (e.g. en); default: whisper auto-detects per file
 //                      (leave auto for the Ngọc Bách vocab audios — they mix VN + EN)
@@ -41,6 +45,8 @@ const opt  = (name, dflt) => {
 const DRY      = flag('--dry-run');
 const FORCE    = flag('--force');
 const FILTER   = opt('--filter', '');
+const WEEK     = opt('--week', '');
+const COURSE   = opt('--course', '');
 const MODEL    = opt('--model', 'small');
 const LANGUAGE = opt('--language', '');
 
@@ -88,8 +94,11 @@ function transcribe(input, output) {
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────────
+// refs are "course/wN" — --course/--week keep srcs referenced by that course/week.
 const all = [...collectAudioSrcs().entries()]
-  .filter(([src]) => !FILTER || src.toLowerCase().includes(FILTER.toLowerCase()));
+  .filter(([src]) => !FILTER || src.toLowerCase().includes(FILTER.toLowerCase()))
+  .filter(([, refs]) => !COURSE || refs.some(r => r.startsWith(`${COURSE}/`)))
+  .filter(([, refs]) => !WEEK || refs.some(r => r.endsWith(`/w${WEEK}`)));
 
 if (!all.length) {
   console.log('No audio materials matched.');
