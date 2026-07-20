@@ -1,14 +1,17 @@
-# IELTS 8.5 — Week Authoring Spec (SEQUENTIAL-FOCUS plan, 2026-07-18)
+# IELTS 8.5 — Week Authoring Spec (L·R·S plan, NO WRITING this year — 2026-07-20)
 
 **Purpose.** Contract for authoring the daily-plan week files of course `ielts-85`
 (`content/courses/ielts-85/weeks/wN.md`, N = 1..52). Every subagent authoring a week
 MUST obey this spec so the 52 files are consistent, render correctly, and stay inside the
 app's own material set.
 
-**Plan shape (user decision 2026-07-18):** the 12 months are SEQUENTIAL, not parallel.
-**Months 1–6 (w1–26): NO WRITING AT ALL** — grind Listening & Reading to 9.0 and build
-Speaking 0→7.0. **Months 7–12 (w27–52): Writing 0→7.0** (largest daily block) + Speaking
-7.0→8.0, while L/R drop to maintenance. Band math: L9 + R9 + W7.0 + S8.0 = 33 → overall 8.5.
+**Plan shape (user decision 2026-07-20):** Writing is **DROPPED from this year entirely**
+(studied next year — giai đoạn 2). All 12 months train only **Listening · Reading · Speaking**
+(+ vocab). No week — none of the 52 — contains a WRITING block or any essay/Task-1/Task-2 work.
+The freed time goes to Speaking (pushed to its ceiling) + L/R full-mock volume:
+**L→9.0, R→9.0, S→8.5.** Band math (this year): L9 · R9 · S8.5 locked; overall 8.5 completes
+next year when Writing 0→7.0 is added (L9·R9·W7.0·S8.5 = 33.5 → 8.5, ½-band spare on Speaking).
+Speaking arc across the year: **0 → 7.0 (gate w26) → 8.0 (gate w39) → 8.5 (gate w47).**
 
 ---
 
@@ -20,22 +23,25 @@ Nguyễn Huyền/BBC, Nghĩa Phan, Road to IELTS, Tú Phạm). **Do NOT invent o
 that are not downloaded** — in particular NOT Cambridge test-books, Simon, Cullen, Hancock, Collins,
 ieltsliz/ieltsadvantage (these are NOT in the archive). The learner must never be sent to find a
 resource. If a task needs material, cite a specific downloaded item, e.g.
-`NgọcBách · Reading Online/4.TRUE FALSE NOT GIVEN`, `NgọcBách · Writing Online/IELTS Writing Task 2/DISCUSS OPINION`,
+`NgọcBách · Reading Online/4.TRUE FALSE NOT GIVEN`, `NgọcBách · Script Speaking #7`,
 `ChépChínhTả · ADVANCED · Lesson 7`, `NguyễnHuyền · BBC ep26`, `NghĩaPhan · Test 14`. A week that
 references anything outside the inventory FAILS validation. The only allowed non-archive items are the
-**feedback services** (Writing marking, italki tutor, ELSA) and `[opt]`-flagged gap-fillers.
+**feedback services** (italki tutor, ELSA — NOT Writing marking, which is next year) and `[opt]`-flagged gap-fillers.
 
 ---
 
-## Rule #2 — Phase-kind rule (HARD, new)
+## Rule #2 — NO Writing in ANY week (HARD)
 
-- **Weeks 1–26 (Phase 1–2): NO `WRITING` block anywhere.** The valid kinds are
+- **All 52 weeks (Phase 1–4): NO `WRITING` block anywhere.** The valid kinds are
   `SPEAKING | READING | LISTENING | ANKI`. A normal weekday runs all four.
-  Do not sneak writing practice into other blocks (no "viết essay", no Task 1/Task 2 work);
-  writing *sentences for Anki production cards* or *speaking cue-card bullet notes* is fine.
-- **Weeks 27–52 (Phase 3–4): `WRITING` is the largest block and appears every day Mon–Sat.**
-  `READING` and `LISTENING` alternate on weekdays (each ~3×/week) since Writing now owns the
-  big morning slot; Saturday runs both (mock).
+  Do not sneak writing practice into other blocks (no "viết essay", no Task 1/Task 2 work,
+  no "gửi chấm"/Writing marking); writing *sentences for Anki production cards* or
+  *speaking cue-card bullet notes* is fine.
+- The NgọcBách Writing course + the marking loop are **reserved for next year** — never cite them.
+  (The Speaking scripts live under a folder path `Writing Online/COURSE CURRICULUM/...`; that path is
+  fine to cite for SPEAKING blocks — it's the 15 Part-2 scripts, not writing practice.)
+- Phase 3–4 have the **same 4-kind shape** as Phase 1–2 (Writing no longer owns a slot). Speaking is
+  the biggest block; `READING` and `LISTENING` both run daily (they get more minutes for mock volume).
 
 ## Output & file naming
 
@@ -51,7 +57,7 @@ Week-level keys:
 - `day_of_week`: `"Thứ Hai"` — always (week starts Monday).
 - `date_n`: string — Monday's day-of-month (from Calendar table), e.g. `"6"`.
 - `month_year`: string — `"MM · YYYY"` from Calendar table, e.g. `"07 · 2026"`.
-- `headline`: short lowercase Vietnamese/English phrase, e.g. `"diagnostic"`, `"khóa 39/40"`, `"writing mở màn"`. Rendered as “Engage **{headline}**”.
+- `headline`: short lowercase Vietnamese/English phrase, e.g. `"diagnostic"`, `"khóa 39/40"`, `"speaking 8.0"`. Rendered as “Engage **{headline}**”.
 - `milestones`: list of **exactly 7** entries, one per day Mon→Sun:
   - `{ d, date, label }` where `d` ∈ `T2,T3,T4,T5,T6,T7,CN` (T2=Mon … T7=Sat, CN=Sun).
   - `date`: day-of-month string from Calendar table for that day.
@@ -59,7 +65,7 @@ Week-level keys:
   - `T7` (Saturday) carries `special: true` (mock/review day).
   - `CN` (Sunday) carries `rest: true` and has **no** matching `days` entry.
   - In **week 1 only**, `T2` carries `today: true`. No other week sets `today`.
-  - A day with a tutor/examiner event also sets `special: true` (italki day, marking-return day).
+  - A day with a tutor event also sets `special: true` (italki day; Sat mock).
 - `days`: list of **exactly 6** entries (Mon→Sat), `{ dow, blocks }` where `dow` ∈ `T2..T7` and matches the milestone `d`. **No CN entry.**
 
 Block-level keys (each item in `blocks`):
@@ -76,8 +82,9 @@ Block-level keys (each item in `blocks`):
 - `material` / `materials` (OPTIONAL): wired study-material object(s) `{ type, name, src, locator, note }`
   pointing into the sliced/extracted archive. **Only weeks 1–7 currently have these.** When re-authoring
   w1–7, PRESERVE the existing wired objects for any block whose cited material stays in the new plan
-  (same lesson / passage / script / vocab topic); drop the ones attached to removed WRITING blocks.
-  Do NOT invent new `src` paths — only reuse paths already present in the old file.
+  (same lesson / passage / script / vocab topic). Do NOT invent new `src` paths — only reuse paths
+  already present in the old file. (w1–26 are already authored to this no-Writing plan; the w27–52
+  rewrite adds no wired materials — w8+ never had them.)
 
 ### Structural invariants (validation checks all of these)
 1. Frontmatter parses as YAML; top-level `n`, `phase`, `milestones`, `days` present.
@@ -85,10 +92,10 @@ Block-level keys (each item in `blocks`):
 3. `days` has 6 entries `T2..T7`; each `dow` matches a milestone `d`.
 4. Each day has **4–6 blocks**; **at most ONE block per `kind`** (the week grid shows one cell per skill/day).
 5. Every block: `id` unique in day, valid `kind`, correct `kind_color`, `duration` int, `tasks` non-empty, **Σ tasks.m == duration**, `reward_seeds` int, `href` correct.
-6. **Phase-kind rule (Rule #2):** w1–26 contain zero `WRITING` blocks; w27–52 have a `WRITING` block on every day T2–T7.
-7. Day totals: weekday (T2–T6) ≈ **195–235 min**. Saturday: Phase 1–2 ≈ **205–255 min** across 4 blocks (timed L + R mocks with review folded in; w13/w26 = the scored S mock too); Phase 3 ≈ **210–270 min** (L+R mock + W block + S); Phase 4 ≈ **250–300 min** (full timed 4-skill mock + scoring + error analysis); w49–52 taper lighter. Sunday rest.
-8. **Every material citation ∈ Material Inventory** (Rule #1) — a downloaded item (`NgọcBách`/`ChépChínhTả`/`NguyễnHuyền`/`NghĩaPhan`/`RoadToIELTS`/`TúPhạm`) or a feedback service. NO Cambridge-book/Simon/Cullen/Hancock/Collins.
-9. The materials used match the week's row in `curriculum-map.md` and the phase (NghĩaPhan Sat mocks from w1; RoadToIELTS from Phase 3; Writing marking only from w30; italki: diagnostic w4, 1×/wk w5–13, 2×/wk w14+).
+6. **Rule #2 (NO Writing):** NO week (w1–52) contains a `WRITING` block or any Task-1/Task-2/BONUS/essay/marking reference. Valid kinds: `SPEAKING | READING | LISTENING | ANKI`.
+7. Day totals: weekday (T2–T6) ≈ **195–235 min** (4 blocks, all phases). Saturday ≈ **200–270 min** across 4 blocks (timed L + R mocks with review folded in + a Speaking block; w13/w26/w39/w47 = the scored S mock too); w49–52 taper lighter. Sunday rest.
+8. **Every material citation ∈ Material Inventory** (Rule #1) — a downloaded item (`NgọcBách`/`ChépChínhTả`/`NguyễnHuyền`/`NghĩaPhan`/`RoadToIELTS`/`TúPhạm`) or a feedback service (italki/ELSA). NO Cambridge-book/Simon/Cullen/Hancock/Collins.
+9. The materials used match the week's row in `curriculum-map.md` and the phase (NghĩaPhan Sat mocks from w1; RoadToIELTS from Phase 3 (w27+); italki: diagnostic w4, 1×/wk w5–13, 2×/wk w14+; NO Writing marking ever).
 
 ### Worked example (a valid Phase-1 day — mirror this exact YAML shape; note: NO WRITING block)
 ```yaml
@@ -160,26 +167,27 @@ Note in the example: `tasks[].m` sums to `duration`; `kind_color` matches `kind`
 - Evening: `19:00–19:2x` → **ANKI** (20–25′).
 - All four kinds run daily on weekdays (4 blocks). Saturday = timed mock: bigger L + R blocks (test + review inside one block each) + S + ANKI — still 4 blocks (only 4 kinds exist, max one block per kind).
 
-**Phase 3–4 (w27–52, Writing largest):**
-- Morning: `07:00–08:4x` → **WRITING** (85–100′, the anchor block).
-- Late morning: `09:00–10:0x` → **SPEAKING** (55–60′).
-- Afternoon: `14:00–14:4x` → **READING** *or* **LISTENING** (30–40′ — alternate weekdays, each ~3×/wk).
-- Evening: `19:00–19:2x` → **ANKI** (15–20′).
-- Saturday = full timed mock (Phase 4: all 4 skills back-to-back) + review, 5–6 blocks.
+**Phase 3–4 (w27–52, Speaking largest — NO Writing):**
+- Morning: `07:00–08:1x` → **READING** (full-mock / timed passages, 60–70′, fresh mind).
+- Late morning: `09:00–10:2x` → **SPEAKING** (the biggest block, 80–90′; italki days = the tutor session).
+- Afternoon: `14:00–15:1x` → **LISTENING** (full test / dictation, 60–70′).
+- Evening: `19:00–19:2x` → **ANKI** (15–25′).
+- All four kinds run daily on weekdays (4 blocks); Speaking owns the largest slot.
+- Saturday = full timed **L→R→S** mock + review (4 blocks: bigger L, R, S + Anki; Phase 4 = exam-order back-to-back).
 
 ---
 
 ## Phase table
 
-| Phase | Weeks | Months | Span | Target | Daily minutes (W/S/R/L/V) | Theme |
+| Phase | Weeks | Months | Span | Target | Daily minutes (S/R/L/V — W=0 all year) | Theme |
 |---|---|---|---|---|---|---|
-| 1 LR Sprint | 1–13 | 1–3 | 07·2026→09·2026 | LR 8.5 | **0**/70/70/75/25 | Grind L&R technique + dictation; build S from 0; NO WRITING |
-| 2 Khóa 9.0 · S lên 7 | 14–26 | 4–6 | 10·2026→12·2026 | LR 9 · S 7 | **0**/75/70/70/25 | Full-test timed → 39–40/40; italki 2×/wk → S 7.0 gate w26; NO WRITING |
-| 3 Writing Sprint | 27–39 | 7–9 | 01·2027→03·2027 | W 6.5 · S 7.5 | 100/60/30/30/20 | Writing from 0 (NB course, marking from w30, weekly from w34); S → 7.5; L/R maintenance |
-| 4 Exam Readiness | 40–52 | 10–12 | 04·2027→06·2027 | 8.5 | 95/60/35/35/15 | W → 7.0 confirmed (gate w47); S → 8.0; weekly full 4-skill mocks; peak+deload |
+| 1 LR Sprint | 1–13 | 1–3 | 07·2026→09·2026 | LR 8.5 | 70/70/75/25 | Grind L&R technique + dictation; build S from 0; NO WRITING |
+| 2 Khóa 9.0 · S lên 7 | 14–26 | 4–6 | 10·2026→12·2026 | LR 9 · S 7 | 75/70/70/25 | Full-test timed → 39–40/40; italki 2×/wk → S 7.0 gate w26; NO WRITING |
+| 3 Speaking Sprint | 27–39 | 7–9 | 01·2027→03·2027 | S 8 · LR 9 | 85/65/65/25 | Push S 7.0→8.0 (iTk 2×/wk + pronunciation features); L/R full-mock hold 9.0; gate w39 |
+| 4 Exam Readiness | 40–52 | 10–12 | 04·2027→06·2027 | S 8.5 · LR 9 | 85/70/70/15 | Push S 8.0→8.5; weekly full L→R→S mocks; peak+taper; gate w47 |
 
-Daily minutes are the **nominal full-stack** allocation; real weekdays run 4 blocks so
-the day lands near 195–235′. Keep each skill near its weekly share.
+Writing is **0 minutes every phase** (studied next year). Daily minutes are the **nominal full-stack**
+allocation; real weekdays run 4 blocks (S/R/L/A) so the day lands near 195–235′. Keep each skill near its weekly share.
 
 ---
 
@@ -188,50 +196,48 @@ the day lands near 195–235′. Keep each skill near its weekly share.
 The full closed corpus (real downloaded archive in `laged-app`, with disk paths, structure, counts,
 verdicts, gaps) lives in **`material-inventory.md`**. Cite ONLY items from there. Condensed map:
 
-- **`NgọcBách`** (backbone) — `Reading Online` 8 q-type folders (`2.GAP FILL`…`8.SHORT ANSWER`, `9.TONG KET`, `10.ÁP DỤNG GIẢI FULL ĐỀ THI THẬT`) · `Writing Online` Task 1 (LINE/BAR/PIE/TABLE/PROCESS/MAP) + Task 2 (DISCUSS OPINION/DISCUSS/CAUSES SOLUTIONS/2 PART QUESTION) + `BONUS _3` + `COURSE CURRICULUM` (COLLOCATIONS 1–6, 15 Speaking Part 2 scripts) · `Vocabulary online` 19 topics · `Giải CAM 7-14/PARAPHRASE` phrasal-verb→Speaking notes.
+- **`NgọcBách`** (backbone) — `Reading Online` 8 q-type folders (`2.GAP FILL`…`8.SHORT ANSWER`, `9.TONG KET`, `10.ÁP DỤNG GIẢI FULL ĐỀ THI THẬT`) · **`Writing Online` Task 1/Task 2/`BONUS _3` = RESERVED for next year, do NOT cite** — but `Writing Online/COURSE CURRICULUM` (COLLOCATIONS 1–6 + the 15 Speaking Part 2 scripts) IS citable for Vocab/Speaking · `Vocabulary online` 19 topics · `Giải CAM 7-14/PARAPHRASE` phrasal-verb→Speaking notes.
 - **`ChépChínhTả`** — dictation `INTERMEDIATE` (24) + `ADVANCED` (24) — the L-precision core.
 - **`NguyễnHuyền`** — `BBC` 8 episodes #25–32 (audio+transcript, self-gradable) + 72-track dictation audio (`Track N.mp3`).
 - **`NghĩaPhan`** 34 full L tests (audio) · **`RoadToIELTS`** 9 full L audios · **`TúPhạm`** 1 vocab set (Inventions) · `ThanhLoan` (beginner — skip).
-- **Feedback services** (not "material"): `italki` Speaking tutor — **diagnostic w4, 1×/wk w5–13, 2×/wk w14–52**; `Writing marking (writing9/tutor)` — **first submission w30, weekly from w34**; `ELSA` pronunciation daily from w1.
-- **Cite format in tasks:** `NgọcBách · Writing Online/IELTS Writing Task 2/DISCUSS OPINION` · `ChépChínhTả · ADVANCED · Lesson 7` · `NguyễnHuyền · BBC ep26` · `NguyễnHuyền · 72-track Track 12` · `NghĩaPhan · Test 14` · `RoadToIELTS · Part 3`.
-- **`[opt]` gap-fillers ONLY** (band-8 Writing models, grammar, pronunciation course): never required daily; flag inline as "nếu muốn đẩy nhanh".
+- **Feedback services** (not "material"): `italki` Speaking tutor — **diagnostic w4, 1×/wk w5–13, 2×/wk w14–52**; `ELSA` pronunciation daily from w1. (Writing marking = next year, NEVER cited.)
+- **Cite format in tasks:** `NgọcBách · Reading Online/10.ÁP DỤNG GIẢI FULL ĐỀ THI THẬT` · `NgọcBách · Script Speaking #7` · `NgọcBách · Vocabulary online - Chủ đề 5 (Education)` · `ChépChínhTả · ADVANCED · Lesson 7` · `NguyễnHuyền · BBC ep26` · `NguyễnHuyền · 72-track Track 12` · `NghĩaPhan · Test 14` · `RoadToIELTS · Part 3`.
+- **`[opt]` gap-fillers ONLY** (advanced pronunciation course, extra Speaking Part 1/3 material): never required daily; flag inline as "nếu muốn đẩy nhanh".
 
 ---
 
 ## Per-skill progression (drives each week's tasks — all cited from the archive)
 
-**READING 8.0→9.0 (w1–26 the grind · w27–52 maintenance 30–35′):**
+**READING 8.0→9.0 (w1–26 the grind · w27–52 full-mock hold 65–70′):**
 - P1 (70′/d): w1–7 master the 8 NB q-type modules IN ORDER (video + slide + practice PDF, 2–3 passages/day, Error Log per q-type); w8–13 `NgọcBách · Reading Online/10` full-test explained sets (Cam 12 → Cam 13 → Cam 5/7 → Cam 11 → BC 4-test) — untimed→timed transition.
 - P2 (70′/d): full tests TIMED (60′, 39–40/40 target) rotating Cam 12/13/11/5/7 re-timed + BC 9-test bank; careless-error autopsy; w26 GATE 39–40/40 twice in a row.
-- P3 (30′/d): maintenance — 2–3 timed passages/wk (NP cross-skill + BC re-timed) + Error Log review; hold 9.0.
-- P4 (35′/d): weekly full timed R mocks inside Sat full mock + fresh-eyes NP re-timed; zero carelessness.
+- P3 (65′/d): full-mock **hold** (NOT light maintenance — see *maintenance-drift* pitfall): timed passages + one Sat full test, NP cross-skill re-read, BC/Cam re-timed + Error Log; keep 39–40/40.
+- P4 (70′/d): weekly full timed R inside the Sat L→R→S mock + fresh-eyes NP re-timed; zero carelessness.
 
-**LISTENING 7.5→9.0 (w1–26 dictation-driven · w27–52 maintenance 30–35′):**
+**LISTENING 7.5→9.0 (w1–26 dictation-driven · w27–52 full-mock hold 65–70′):**
 - P1 (75′/d): `ChépChínhTả · INTERMEDIATE` 24 lessons w1–6 (~4/wk, spelling/number precision) → `ADVANCED` from w7 (natural-pace, A1–16 by w13); `NguyễnHuyền · BBC` ep25–31 paired episodes + `72-track` extra dictation; NP L test each Sat (NP1–13).
 - P2 (70′/d): CCT-A 17–24 finish + round 2 of the hardest; NP14–26 full timed; accent range via BBC re-shadow; w26 GATE 39–40/40.
-- P3 (30′/d): NP27–34 + RtI1–5 sections + CCT-A spot dictation; hold the ear.
-- P4 (35′/d): weekly full L mocks (NP fresh re-timed, RtI6–9, BC bank); spelling/số zero-tolerance.
+- P3 (65′/d): NP27–34 full timed + RtI1–5 sections + CCT-A spot dictation; hold 39–40/40 (not "light").
+- P4 (70′/d): weekly full L mocks (NP fresh re-timed, RtI6–9, BC bank); spelling/số zero-tolerance.
 
-**SPEAKING 0→7.0 (w1–26) →8.0 (w27–52)** — the ONLY skill trained all 12 months:
+**SPEAKING 0→7.0→8.0→8.5** — the ONLY skill pushed all 12 months; the biggest block in P3–4:
 - P1 (70′/d): pronunciation floor (ELSA daily 10–15′ + shadow BBC); NB 15 Part 2 scripts (#1–7 w1–7, #8–15 w8–13); `Vocabulary online` topic lexis into Part 1/3 answers; `PARAPHRASE` phrasal-verb notes; record + self-review vs script daily. **italki: diagnostic w4, then 1 session/wk from w5.** w13 iTk mock scored (expect ~5.5–6.0).
 - P2 (75′/d): **italki 2×/wk**; topic bank for all 19 NB-V topics; less-common lexis + connected speech; mid-phase scored mock w20; **w26 GATE: iTk full mock scored 7.0.**
-- P3 (60′/d): push 7.0→7.5 — lexical range, pronunciation features (intonation, weak forms), P3 abstract depth; iTk 2×/wk keeps; w39 gate 7.5.
-- P4 (60′/d): push 7.5→8.0 — iTk full mocks under exam pressure, fluency never drops; w47 GATE 8.0; then hold + taper.
+- P3 (85′/d): push 7.0→8.0 — lexical range, pronunciation features (intonation, weak forms, sentence stress), P3 abstract depth, answer-under-pressure without stalling; iTk 2×/wk; **w39 GATE: iTk full mock scored 8.0.**
+- P4 (85′/d): push 8.0→8.5 — iTk full mocks under exam pressure, pronunciation features at ceiling, fluency never drops; **w47 GATE 8.5**; then hold + taper.
 
-**WRITING 0→7.0 — STARTS AT w27, not before (100′/d P3 · 95′/d P4):**
-- P3: w27 method + diagnostic (COURSE CURRICULUM, band descriptors, untimed T1+T2 baseline) + LINE GRAPH; w28 BAR + PIE; w29 TABLE + PROCESS; w30 MAP + 6-type review → **first marking submission (Task 1)**; w31 T2 DISCUSS OPINION; w32 DISCUSS; w33 CAUSES SOLUTIONS; w34 2-PART → **weekly marking starts**; w35–37 BONUS ×4 + weekly FB rewrite; w38 error-kill top-3; w39 timed T1+T2 → FB, gate ~6.5. Each lesson = watch `.TS` video → study slide + `HUONG-DAN-ON-TAP` + vocab mp3 → self-write full → self-review vs model.
-- P4: weekly timed T2 (+T1 rotation) → FB → rewrite; GRA "frequent error-free"; gate w47 = two consecutive 7.0 marks; w48 peak, w49–52 taper/hold. `[opt]` band-8 models only as accelerator.
+**(WRITING — none this year.** The NgọcBách Writing course + marking loop are reserved for next year; never author a Writing block or cite Task 1/Task 2/BONUS/essay/marking.)
 
-**VOCAB (25′ P1–2 · 20′ P3 · 15′ P4):** NB-V topics 1–13 (w1–13), 14–19 (w14–19), review rounds + COLLOCATIONS 1–6 (w20–26); P3–4 rotate reviews to feed Writing Task 2 + Speaking; TúPhạm Inventions opportunistically (w46). 15 production cards/day.
+**VOCAB (25′ P1–2 · 25′ P3 · 15′ P4):** NB-V topics 1–13 (w1–13), 14–19 (w14–19), review rounds + COLLOCATIONS 1–6 (w20–26); P3–4 rotate reviews to feed **Speaking** Part 2/3 (less-common lexis); TúPhạm Inventions opportunistically (w46). 15 production cards/day.
 
 ## Weekly cadence
 - **Saturday (T7)** = mock/review day, `special:true`.
-  - P1: timed NP L test (NP = week number) + NB-R timed set + review; w4 also the italki diagnostic debrief; **w13 = phase gate: NP13 L full + NB-R10 R full + iTk-scored S mock (NO Writing).**
+  - P1: timed NP L test (NP = week number) + NB-R timed set + review; w4 also the italki diagnostic debrief; **w13 = phase gate: NP13 L full + NB-R10 R full + iTk-scored S mock.**
   - P2: NP L full + Cam/BC R full timed + review; scored iTk S mock ~every 3–4 wks (w20, w26); **w26 = half-year GATE: L/R 39–40/40 + S 7.0.**
-  - P3: L+R maintenance mock + Writing self-review; from w33 add timed W essay; **w39 = FIRST FULL 4-SKILL MOCK (L→R→W→S).**
-  - P4: full 4-skill timed mock weekly (NP re-timed / RtI / BC bank); w48 peak; w51 dress rehearsal; w52 rest → TEST.
-- **italki**: diagnostic w4 · 1×/wk w5–13 (one weekday `special:true`) · 2×/wk w14–52 (two weekdays `special:true`).
-- **Writing marking**: first submission w30 (Task 1) · second w34 (first Task 2) · **weekly from w34 on** — submission day + return/rewrite day visible in the week.
+  - P3: full L + R timed mock + a scored/heavier Speaking block; **w39 = GATE: iTk full mock S 8.0 + L/R 39–40/40 hold.**
+  - P4: full **L→R→S** timed mock weekly (NP re-timed / RtI / BC bank), exam order; **w47 = GATE S 8.5 + L/R 9.0**; w48 peak; w51 dress rehearsal (L→R→S); w52 rest → ready for the L·R·S sitting.
+- **italki**: diagnostic w4 · 1×/wk w5–13 (one weekday `special:true`) · 2×/wk w14–52 (two weekdays `special:true`, usually T3+T5).
+- **NO Writing marking** anywhere — Writing is next year. Never write "gửi chấm" / Writing marking into any week.
 - **Sunday (CN)** = rest/deload, no blocks.
 
 ## Style / quality bar

@@ -115,14 +115,13 @@ for (const n of targets) {
       if (b.time && !/^\d{2}:\d{2}–\d{2}:\d{2}$/.test(b.time)) errs.push(`${tag}: time "${b.time}" not HH:MM–HH:MM`);
       dayMin += b.duration || 0;
     }
-    // Rule #2 — phase-kind rule
-    if (expPhase <= 2 && kinds.has('WRITING')) errs.push(`${d.dow}: WRITING block in phase ${expPhase} (w1–26 must have none)`);
-    if (expPhase >= 3 && !kinds.has('WRITING')) errs.push(`${d.dow}: no WRITING block in phase ${expPhase} (w27–52 need one daily)`);
-    // day-total ranges (spec inv. 7; slightly loose; w49–52 taper allowed lighter)
+    // Rule #2 — NO Writing in ANY week (Writing dropped from this year's plan; học năm sau)
+    if (kinds.has('WRITING')) errs.push(`${d.dow}: WRITING block — kế hoạch năm nay BỎ HẲN Writing (không tuần nào có block WRITING)`);
+    // day-total ranges (spec inv. 7; all phases now 4-block S/R/L/A; w49–52 taper lighter)
     const sat = d.dow === 'T7';
     const taper = n >= 49;
     const [lo, hi] = sat
-      ? (taper ? [140, 310] : expPhase <= 2 ? [200, 260] : [200, 310])
+      ? (taper ? [140, 300] : [200, 270])
       : (taper ? [140, 240] : [190, 240]);
     if (dayMin < lo || dayMin > hi) errs.push(`${d.dow}: total ${dayMin}′ outside ${lo}–${hi}′`);
   });
@@ -131,14 +130,14 @@ for (const n of targets) {
   const raw = readFileSync(file, 'utf8');
   const bl = raw.match(BLACKLIST);
   if (bl) errs.push(`blacklisted citation "${bl[0]}"`);
-  // Writing-service timing: no marking mentions before w30
-  if (n < 30 && /gửi chấm|writing marking|writing9/i.test(raw)) errs.push('marking service mentioned before w30');
+  // Writing removed entirely — marking service must NEVER appear
+  if (/gửi chấm|writing marking|writing9/i.test(raw)) errs.push('marking service mentioned (Writing bỏ khỏi kế hoạch năm nay)');
   // italki timing: none before w4
   if (n < 4 && /italki|iTk/i.test(raw)) errs.push('italki mentioned before w4');
-  // RoadToIELTS only from phase 3
-  if (n < 35 && /RoadToIELTS|RtI/.test(raw)) errs.push('RoadToIELTS cited before w35');
-  // No writing-course material in w1–26
-  if (n <= 26 && /Writing Online\/(IELTS Writing Task|BONUS)|Task 1|Task 2|essay/i.test(raw)) errs.push('writing-course/essay reference in w1–26');
+  // RoadToIELTS only from phase 3 (w27+)
+  if (n < 27 && /RoadToIELTS|RtI/.test(raw)) errs.push('RoadToIELTS cited before w27');
+  // No writing-course material / essay / Task 1–2 in ANY week
+  if (/Writing Online\/(IELTS Writing Task|BONUS)|Task 1|Task 2|\bessay\b/i.test(raw)) errs.push('writing-course/essay/Task reference (Writing bỏ khỏi kế hoạch)');
 
   if (errs.length) { console.log(`w${n}: ${errs.length} error(s)\n  - ` + errs.join('\n  - ')); totalErrs += errs.length; }
   else console.log(`w${n}: OK`);

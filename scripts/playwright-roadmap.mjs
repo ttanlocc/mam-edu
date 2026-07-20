@@ -60,20 +60,20 @@ const checks = [
   // ── Phase rows ────────────────────────────────────────────────────────────
   ['Phase 1 "LR Sprint" shown',            text.includes('LR Sprint')],
   ['Phase 2 "Khóa 9.0 · S lên 7" shown',   text.includes('Khóa 9.0')],
-  ['Phase 3 "Writing Sprint" shown',       text.includes('Writing Sprint')],
+  ['Phase 3 "Speaking Sprint" shown',      text.includes('Speaking Sprint')],
   ['Phase 4 "Exam Readiness" shown',       text.includes('Exam Readiness')],
   ['BẠN ĐANG Ở ĐÂY on Phase 1',           text.includes('BẠN ĐANG Ở ĐÂY')],
   ['Phase 1 span "07·2026"',               text.includes('07·2026')],
 
   // ── Band targets ──────────────────────────────────────────────────────────
   ['READING band row',                     text.includes('READING')],
-  ['WRITING "–" (chưa học 6 tháng đầu)',   text.includes('–')],
-  ['SPEAKING band shows target 8.0',       text.includes('8.0')],
+  ['WRITING "–" (không học năm nay)',      text.includes('–')],
+  ['SPEAKING band shows target 8.5',       text.includes('8.5')],
 
   // ── Schedule grid ─────────────────────────────────────────────────────────
   ['Schedule section header',             text.includes('PHÂN BỔ THỜI GIAN')],
-  ['Writing 0′ in Phase 1 (sequential)',  text.includes("0′")],
-  ['Writing 100′ in Phase 3',             text.includes("100′")],
+  ['Writing 0′ every phase (no Writing)', text.includes("0′")],
+  ['Speaking 85′ in Phase 3',             text.includes("85′")],
 
   // ── Materials ─────────────────────────────────────────────────────────────
   ['Sách bắt buộc section',               text.includes('SÁCH BẮT BUỘC')],

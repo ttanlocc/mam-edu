@@ -7,13 +7,14 @@ for the ielts-85 roadmap (spec Rule #1). Everything below is actually on disk.
 **Disk root** (note trailing space after "IELTS"): `laged-app/materials-raw/extracted/2. KHO TÀI LIỆU IELTS /`
 Daily tasks cite the **short name + internal folder** (readable), e.g. `NgọcBách · Writing Online/IELTS Writing Task 2/DISCUSS OPINION`. Full disk paths live here for reference.
 
-## Decision in force (user, 2026-07-18) — SEQUENTIAL plan
-Target stays **8.5**, now via **L9 + R9 + W7.0 + S8.0 = 33**. The 12 months are sequential, not parallel:
-**months 1–6 (w1–26) have NO Writing at all** — the archive's L/R banks + dictation carry L/R → 9.0 while
-Speaking builds 0 → 7.0 (scripts + vocab + italki from w4/w5). **Months 7–12 (w27–52)** consume the whole
-NB Writing course from zero → 7.0 with a dense **feedback loop** (first marking w30, weekly from w34 —
-Ngọc Bách's own "nộp bài sửa" method), and push Speaking 7.0 → 8.0 (iTk full mocks). Flagged
-external top-ups (band-8 Writing models, grammar) appear only as **optional gap-fillers**, never as required daily material.
+## Decision in force (user, 2026-07-20) — L·R·S this year, WRITING NEXT YEAR
+Writing is **dropped from this year's plan entirely** (studied next year — giai đoạn 2). All 52 weeks train
+only **Listening · Reading · Speaking** (+ vocab): the archive's L/R banks + dictation carry L/R → 9.0, and
+Speaking is pushed all year **0 → 7.0 (w26) → 8.0 (w39) → 8.5 (w47)** via scripts + vocab + italki (from w4/w5,
+2×/wk from w14) + ELSA. Freed Writing time goes to Speaking (biggest block 85′/day in the back half) + L/R
+full-mock volume. **This year locks L9 · R9 · S8.5**; overall 8.5 completes next year when Writing 0→7.0 is added
+(L9·R9·W7.0·S8.5 = 33.5 → 8.5). The NgọcBách Writing course + the marking loop below are **reserved for next
+year — never cited in any week this year.**
 
 ---
 
